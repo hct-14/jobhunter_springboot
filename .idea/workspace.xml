@@ -4,20 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50a2445c-6140-4995-b477-7a786fee26d5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hoidanit/jobhunter/JobhunterApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hct_14/jobhunter/JobhunterApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hoidanit/jobhunter/config/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hct_14/jobhunter/config/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hoidanit/jobhunter/controller/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hct_14/jobhunter/controller/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hoidanit/jobhunter/domain/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hct_14/jobhunter/domain/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hoidanit/jobhunter/repository/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hct_14/jobhunter/repository/test.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hoidanit/jobhunter/service/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/01-java-spring-jobhunter-starter/src/main/java/vn/hct_14/jobhunter/service/test.txt" afterDir="false" />
-    </list>
+    <list default="true" id="50a2445c-6140-4995-b477-7a786fee26d5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
     <projectState path="$PROJECT_DIR$/01-java-spring-jobhunter-starter">
       <ProjectState />
     </projectState>
@@ -37,9 +33,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/01-java-spring-jobhunter-starter" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2hYfsJwzG4IFly8Bp1tNUqfsIS5" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -52,6 +48,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/hoang/OneDrive/Máy tính/jobhunter/01-java-spring-jobhunter-starter/settings.gradle.kts",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
@@ -60,6 +57,16 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\hoang\OneDrive\Máy tính\jobhunter\01-java-spring-jobhunter-starter" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Hct14Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="hct_14.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="job_hunter.hct_14.Hct14Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
