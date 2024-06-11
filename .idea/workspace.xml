@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50a2445c-6140-4995-b477-7a786fee26d5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/error/GlobalException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/Exception.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/FormatResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/FormatResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +64,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/User.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/UserRepository.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/UserService.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/error/GlobalException.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/FormatResponse.java" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
@@ -128,22 +132,11 @@
       <updated>1717776139164</updated>
       <workItem from="1717776140579" duration="97000" />
       <workItem from="1717823765346" duration="18462000" />
-      <workItem from="1718091505180" duration="8223000" />
+      <workItem from="1718091505180" duration="9868000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
