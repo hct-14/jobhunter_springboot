@@ -5,13 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50a2445c-6140-4995-b477-7a786fee26d5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/Exception.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/RestResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/error/IdInvaldException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/FormatResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/FormatResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/FormatResponse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +128,7 @@
       <updated>1717776139164</updated>
       <workItem from="1717776140579" duration="97000" />
       <workItem from="1717823765346" duration="18462000" />
-      <workItem from="1718091505180" duration="6964000" />
+      <workItem from="1718091505180" duration="8223000" />
     </task>
     <servers />
   </component>
