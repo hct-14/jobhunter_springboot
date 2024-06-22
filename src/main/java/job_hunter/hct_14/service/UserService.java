@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +20,13 @@ public class UserService{
 
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+
+    public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
     public User handleCreateUser(User user){
-       return this.userRepository.save(user);
+
+        return this.userRepository.save(user);
     }
 
     public void deleteById(int id){
@@ -55,6 +58,9 @@ public class UserService{
             // Trả về null nếu người dùng không tồn tại
             return null;
         }
+    }
+    public User handleGetUserByUsername(String username) {
+        return this.userRepository.findByEmail(username);
     }
 
 

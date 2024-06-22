@@ -1,27 +1,19 @@
 package job_hunter.hct_14.entity;
 
-public class RestResponse <T>{
-    private int status;
+public class RestResponse<T> {
+    private int statusCode;
     private String error;
-    private T data;
+
+    // message có thể là string, hoặc arrayList
     private Object message;
+    private T data;
 
-
-
-    public int getStatus() {
-        return status;
+    public int getStatusCode() {
+        return statusCode;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public Object getMessage() {
-        return message;
-    }
-
-    public void setMessage(Object message) {
-        this.message = message;
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
     }
 
     public String getError() {
@@ -32,6 +24,14 @@ public class RestResponse <T>{
         this.error = error;
     }
 
+    public Object getMessage() {
+        return message;
+    }
+
+    public void setMessage(Object message) {
+        this.message = message;
+    }
+
     public T getData() {
         return data;
     }
@@ -39,4 +39,5 @@ public class RestResponse <T>{
     public void setData(T data) {
         this.data = data;
     }
+
 }
