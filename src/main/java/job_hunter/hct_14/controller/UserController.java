@@ -3,7 +3,7 @@ package job_hunter.hct_14.controller;
 import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.service.UserService;
 import job_hunter.hct_14.util.error.IdInvaldException;
-import job_hunter.hct_14.util.error.UpdateException;
+//import job_hunter.hct_14.util.error.UpdateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/")
+//    @CrossOrigin
     public String test() throws IdInvaldException {
 
         return "hoang cong thanh dep trai ";
@@ -85,15 +86,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.findbyAllUser());
     }
     @PutMapping("/user/{id}")
-        public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) throws UpdateException {
+        public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user)  {
             User userupdate = this.userService.updateUser(id, user);
-            if (userupdate != null) {
+//            if (userupdate != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(userupdate);
-
-            } else {
-              throw new UpdateException("khong co user nao ca");
-
-            }
+//
+//            } else {
+//              throw new UpdateException("khong co user nao ca");
+//
+//            }
     //        return userupdate;
     //        return ResponseEntity.status(HttpStatus.OK).body(userupdate);
         }
