@@ -1,4 +1,4 @@
-package job_hunter.hct_14.entity;
+package job_hunter.hct_14.entity.DTO;
 
 public class RestResponse<T> {
     private int statusCode;

@@ -1,15 +1,14 @@
 package job_hunter.hct_14.util;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
-import job_hunter.hct_14.entity.RestResponse;
+import job_hunter.hct_14.entity.DTO.RestResponse;
+import job_hunter.hct_14.util.annotation.ApiMessage;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @ControllerAdvice
@@ -43,7 +42,8 @@ public class FormatResponse implements ResponseBodyAdvice<Object> {
             return body;
         } else {
             res.setData(body);
-            res.setMessage("CALL API SUCCESS");
+            ApiMessage message = returnType.getMethodAnnotation(ApiMessage.class);
+            res.setMessage(message != null ? message.value() :  "CALL API SUCCESS");
         }
 
         return res;

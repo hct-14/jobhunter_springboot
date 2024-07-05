@@ -35,7 +35,6 @@ public class SercurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     public JwtEncoder jwtEncoder() {
         return new NimbusJwtEncoder(new ImmutableSecret<>(getSecretKey()));
@@ -50,7 +49,7 @@ public class SercurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
         http.authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/", "/login", "/user").permitAll()
+                        .requestMatchers("/", "/api/v1/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())

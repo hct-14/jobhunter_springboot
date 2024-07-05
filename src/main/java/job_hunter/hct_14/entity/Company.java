@@ -1,45 +1,39 @@
 package job_hunter.hct_14.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import job_hunter.hct_14.util.SercuryUtil;
-import job_hunter.hct_14.util.constant.GenderEnum;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.xml.crypto.Data;
+import job_hunter.hct_14.util.SercuryUtil;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
 @Entity
-@Table(name = "user")
+@Table(name = "companies")
 @Getter
 @Setter
-public class User {
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
-//    @Column(name = "name")
-    @NotBlank(message = "email khong duoc de trong")
+    private long id;
+    @NotBlank(message = "name khong duoc de trong dau em oi")
     private String name;
-    @Column(name = "email")
-    @NotBlank(message = "password khong duoc de trong")
-    private String email;
-//    @Column(name = "pass_word")
-    private String passWord;
-    private int age;
-    @Enumerated(EnumType.STRING)
-    private GenderEnum gender;
-
-
+    @NotBlank(message = "desc không được để trống đâu em ơi")
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String description;
     private String address;
-    private String refreshToken;
+    private String logo;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
-    private Instant updatedAt;
-    private String createdBy;
+    private Instant updadtedAt;
     private String updatedBy;
+    private String createdBy;
+//    SercuryUtil
 
     @PrePersist
     public void handleBeforeCreatedateAt() {
@@ -52,6 +46,7 @@ public class User {
     public void handleBeforeUpdateAt() {
         Optional<String> currentUserLogin = SercuryUtil.getCurrentUserLogin();
         this.updatedBy = currentUserLogin.orElse(null);
-        this.updatedAt = Instant.now();
+        this.updadtedAt = Instant.now();
     }
+
 }

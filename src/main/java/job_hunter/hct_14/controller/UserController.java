@@ -1,18 +1,25 @@
 package job_hunter.hct_14.controller;
 
+import com.turkraft.springfilter.boot.Filter;
+import jakarta.validation.Valid;
+import job_hunter.hct_14.entity.DTO.ResCreateUserDTO;
+import job_hunter.hct_14.entity.DTO.ResUserDTO;
+import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
 import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.service.UserService;
+import job_hunter.hct_14.util.annotation.ApiMessage;
 import job_hunter.hct_14.util.error.IdInvaldException;
 //import job_hunter.hct_14.util.error.UpdateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
+@RequestMapping("/api/v1")
 public class UserController {
 //    @ExceptionHandler(value = IdInvaldException.class)
 //    public ResponseEntity<String> handleIdInvaldException(IdInvaldException idInvaldException) {
@@ -36,16 +43,24 @@ public class UserController {
     }
 //    @GetMapping()
     @PostMapping("/user")
-    public ResponseEntity<User> createNewUser(@RequestBody User postManUser){
-        String hashPassword = this.passwordEncoder.encode(postManUser.getPassWord());
+    @ApiMessage("Create a new user")
+    public ResponseEntity<ResCreateUserDTO> createNewUser(@Valid @RequestBody User postManUser) throws IdInvaldException{
+        boolean isEmailExist = this.userService.isEmailExist(postManUser.getEmail());
+        if (isEmailExist){
+            throw  new IdInvaldException(
+                    "Email " + postManUser.getEmail() + " đã tồn tai rồi em, nhập email khác đi"
+            );
+        }
+        String hashPassword = passwordEncoder.encode(postManUser.getPassWord());
         postManUser.setPassWord(hashPassword);
         User createUser = this.userService.handleCreateUser(postManUser);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.converToResCreateUserDTO(createUser));
     }
     @DeleteMapping("/user/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable int id)
         throws IdInvaldException{
-        if (id >= 1500) {
+        User currentUser = this.userService.findById(id);
+        if (currentUser == null) {
             throw  new IdInvaldException("id khong hop le");
         }
         this.userService.deleteById(id);
@@ -53,13 +68,13 @@ public class UserController {
 
     }
     @GetMapping("/user/find/{id}")
-    public ResponseEntity<User> findById(@PathVariable int id) {
+    public ResponseEntity<ResUserDTO> findById(@PathVariable int id) {
 //        User fetchUser = this.userService.findById(id);
 //        return ResponseEntity.status(HttpStatus.OK).body(fetchUser);
         try {
             User fetchUser = this.userService.findById(id);
             if (fetchUser != null) {
-                return ResponseEntity.status(HttpStatus.OK).body(fetchUser);
+                return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUserDTO(fetchUser));
             } else {
                 // Nếu không tìm thấy người dùng, ném ngoại lệ IdInvalidException
                 throw new IdInvaldException("Id không hợp lệ");
@@ -73,30 +88,26 @@ public class UserController {
         }
     }
 
-    @GetMapping("/user/findall")
-    public ResponseEntity<List<User>> getAllUser() {
-//        return this.userService.findbyAllUser();
-//        User findAll = (User) this.userService.findbyAllUser();
-//        if (findAll != null) {
-//            return ResponseEntity.status(HttpStatus.OK).body(this.userService.findbyAllUser());
-//        }else {
-//            throw new FindAllError("khong co user nao ca");
-//        }
 
-        return ResponseEntity.status(HttpStatus.OK).body(this.userService.findbyAllUser());
+    @GetMapping("/findall")
+    @ApiMessage("fetch all users")
+    public ResponseEntity<ResultPaginationDTO> getAllUser(@Filter Specification<User> spec, Pageable pageable) {
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.findbyAllUser(spec, pageable));
     }
     @PutMapping("/user/{id}")
-        public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user)  {
-            User userupdate = this.userService.updateUser(id, user);
-//            if (userupdate != null) {
-                return ResponseEntity.status(HttpStatus.OK).body(userupdate);
+        public ResponseEntity<ResUserDTO> updateUser(@RequestBody User user) throws IdInvaldException {
+            User userupdate = this.userService.updateUser(user);
+            if (userupdate != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUserDTO(userupdate));
 //
-//            } else {
-//              throw new UpdateException("khong co user nao ca");
-//
-//            }
+            } else {
+              throw new IdInvaldException("khong co user nao ca");
+
+            }
     //        return userupdate;
-    //        return ResponseEntity.status(HttpStatus.OK).body(userupdate);
+//            return ResponseEntity.status(HttpStatus.OK).body(userupdate);
         }
 
 }
