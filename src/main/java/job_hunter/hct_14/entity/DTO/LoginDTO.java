@@ -1,4 +1,4 @@
-package job_hunter.hct_14.dto;
+package job_hunter.hct_14.entity.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 

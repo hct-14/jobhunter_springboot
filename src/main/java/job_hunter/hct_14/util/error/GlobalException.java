@@ -21,7 +21,7 @@ public class GlobalException {
     @ExceptionHandler(value = {
                        UsernameNotFoundException.class,
                         BadCredentialsException.class,
-                        IdInvaldException.class})  // Ensure the exception class name is correct
+                        IdInvaldException.class,})  // Ensure the exception class name is correct
 
     public ResponseEntity<RestResponse<Object>> handleIdException(Exception ex) {
         RestResponse<Object> res = new RestResponse<>();
@@ -30,32 +30,31 @@ public class GlobalException {
         res.setMessage("thông tin đăng nhập sai rồi em ơi");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
-    @ExceptionHandler(value = {
-            NoResourceFoundException.class,
-    })
-    public ResponseEntity<RestResponse<Object>> handleNotFoundException(Exception ex) {
-        RestResponse<Object> res = new RestResponse<Object>();
-        res.setStatusCode(HttpStatus.NOT_FOUND.value());
-        res.setError(ex.getMessage());
-        res.setMessage("404 Not Found. URL may not exist...");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
-    }
+//    @ExceptionHandler(value = {
+//            NoResourceFoundException.class,
+//    })
+//    public ResponseEntity<RestResponse<Object>> handleNotFoundException(Exception ex) {
+//        RestResponse<Object> res = new RestResponse<Object>();
+//        res.setStatusCode(HttpStatus.NOT_FOUND.value());
+//        res.setError(ex.getMessage());
+//        res.setMessage("404 Not Found. URL may not exist...");
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+//    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RestResponse<Object>> validationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
-        List<FieldError> fieldErrors = result.getFieldErrors();
+        final List<FieldError> fieldErrors = result.getFieldErrors();
 
-        RestResponse<Object> res = new RestResponse<>();
+        RestResponse<Object> res = new RestResponse<Object>();
         res.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        res.setError("Validation error");
+        res.setError(ex.getBody().getDetail());
 
-        List<String> errors = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
+        List<String> errors = fieldErrors.stream().map(f -> f.getDefaultMessage()).collect(Collectors.toList());
         res.setMessage(errors.size() > 1 ? errors : errors.get(0));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
-
 
 
 }

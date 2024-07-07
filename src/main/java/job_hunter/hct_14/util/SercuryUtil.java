@@ -1,6 +1,6 @@
 package job_hunter.hct_14.util;
 
-import com.nimbusds.jose.util.Base64;
+import job_hunter.hct_14.entity.DTO.ResLoginDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,11 +11,8 @@ import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -35,21 +32,23 @@ public class SercuryUtil {
 
     @Value("${hct_14.jwt.base64-secret}")
     private String jwtKey;
-    @Value("${hct_14.jwt.token-validity-in-seconds}")
-    private long JwtExpiration;
-    public String CreateToken(Authentication authentication) {
+    @Value("${hct_14.jwt.accsess-token-validity-in-seconds}")
+    private long JwtExpirationAccsessToken;
+    @Value("${hct_14.jwt.refresh-token-validity-in-seconds}")
+    private long JwtExpirationRefreshToken;
+    public String CreateAccsessToken(Authentication authentication) {
 
         Instant now = Instant.now();
-        Instant validity = now.plus(this.JwtExpiration, ChronoUnit.SECONDS);
+        Instant validity = now.plus(this.JwtExpirationAccsessToken, ChronoUnit.SECONDS);
 
         // @formatter:off
-      JwtClaimsSet claims = JwtClaimsSet.builder()
+        JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuedAt(now)
                 .expiresAt(validity)
                 .subject(authentication.getName())
                 .claim("Hoangthanh", authentication)
                 .build();
-      JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
+        JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader,
                 claims)).getTokenValue();
 
@@ -60,6 +59,27 @@ public class SercuryUtil {
      *
      * @return the login of the current user.
      */
+    public String CreateRefreshToken(String email, ResLoginDTO resLoginDTO) {
+
+        Instant now = Instant.now();
+        Instant validity = now.plus(this.JwtExpirationRefreshToken, ChronoUnit.SECONDS);
+
+        // @formatter:off
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuedAt(now)
+                .expiresAt(validity)
+                .subject(email)
+                .claim("user", resLoginDTO.getUser())
+                .build();
+        JwsHeader jwsHeader = JwsHeader.with(JWT_ALGORITHM).build();
+        return this.jwtEncoder.encode(JwtEncoderParameters.from(jwsHeader,
+                claims)).getTokenValue();
+
+    }
+
+
+
+
     public static Optional<String> getCurrentUserLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
@@ -118,7 +138,7 @@ public class SercuryUtil {
      *
      * @param authorities the authorities to check.
      * @return true if the current user has none of the authorities, false otherwise.
-//     */
+    //     */
 //    public static boolean hasCurrentUserNoneOfAuthorities(String... authorities) {
 //        return !hasCurrentUserAnyOfAuthorities(authorities);
 //    }
