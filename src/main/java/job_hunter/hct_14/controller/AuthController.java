@@ -7,6 +7,7 @@ import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.service.UserService;
 import job_hunter.hct_14.util.SercuryUtil;
 import job_hunter.hct_14.util.error.IdInvaldException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,8 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final SercuryUtil sercuryUtil;
     private final UserService userService;
-
+    @Value("${hct_14.jwt.refresh-token-validity-in-seconds}")
+    private long JwtExpirationRefreshToken;
     public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, SercuryUtil sercuryUtil, UserService userService) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.sercuryUtil = sercuryUtil;
@@ -67,7 +69,7 @@ public class AuthController {
                     .httpOnly(true)
                     .secure(true)
 //                    .domain("/")
-                    .maxAge(60)
+                    .maxAge(JwtExpirationRefreshToken)
                     .path("/")
                     .build();
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,responseCookie.toString())
