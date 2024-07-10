@@ -28,9 +28,9 @@ public class Company {
     private String description;
     private String address;
     private String logo;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
     private Instant createdAt;
-    private Instant updadtedAt;
+    private Instant updatedAt;
     private String updatedBy;
     private String createdBy;
 //    SercuryUtil
@@ -46,7 +46,7 @@ public class Company {
     public void handleBeforeUpdateAt() {
         Optional<String> currentUserLogin = SercuryUtil.getCurrentUserLogin();
         this.updatedBy = currentUserLogin.orElse(null);
-        this.updadtedAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
 }

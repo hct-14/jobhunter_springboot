@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/v1")
+
 public class CompanyController {
 
 
@@ -24,27 +26,23 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    @PostMapping("/Company")
+    @PostMapping("/companies")
     public ResponseEntity<Company> addCompany(@Valid @RequestBody Company company) {
         Company createCompany = this.companyService.createCompany(company);
         return ResponseEntity.status(HttpStatus.CREATED).body(createCompany);
     }
-    @GetMapping("/Company")
+    @GetMapping("/companies")
     public ResponseEntity<ResultPaginationDTO> getAllCompany(@Filter Specification<Company> spec, Pageable pageable) {
-//        String sCurent = curentOptinal.isPresent() ? curentOptinal.get() : "";
-//        String sPageSize = pageSizeOptinal.isPresent() ? pageSizeOptinal.get() : "";
-//        int current = Integer.parseInt(sCurent);
-//        int pageSize = Integer.parseInt(sPageSize);
-//        Pageable pageable = PageRequest.of(current - 1, pageSize);
+//
         return ResponseEntity.status(HttpStatus.OK).body(this.companyService.getAllCompanies(spec,pageable));
     }
 
-    @PutMapping("/Company/{id}")
+    @PutMapping("/companies/{id}")
     public ResponseEntity<Company> updateCompany(@PathVariable int id, @Valid @RequestBody Company company) {
         Company updateCompany = this.companyService.updateCompany(id, company);
         return ResponseEntity.status(HttpStatus.OK).body(updateCompany);
     }
-    @DeleteMapping("/Company/{id}")
+    @DeleteMapping("/companies/{id}")
     public ResponseEntity<String> deleteCompany(@PathVariable int id) {
         this.companyService.deleteCompany(id);
         return ResponseEntity.status(HttpStatus.OK).body("xoa oke");

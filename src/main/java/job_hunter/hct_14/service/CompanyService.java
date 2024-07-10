@@ -2,14 +2,20 @@ package job_hunter.hct_14.service;
 
 import job_hunter.hct_14.entity.Company;
 import job_hunter.hct_14.entity.DTO.Meta;
+import job_hunter.hct_14.entity.DTO.ResCompanyDTO;
+import job_hunter.hct_14.entity.DTO.ResUserDTO;
 import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
+import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.repository.CompanyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CompanyService {
@@ -41,20 +47,67 @@ public class CompanyService {
         }
         return null;
     }
+//    public ResultPaginationDTO getAllCompanies(Specification<Company> spec, Pageable pageable){
+////        return this.companyRepository.findAll(pageable);
+//        Page<Company> pageCompany = this.companyRepository.findAll(pageable);
+//        ResultPaginationDTO rs = new ResultPaginationDTO();
+//        Meta mt = new Meta();
+//        mt.setPage(pageCompany.getNumber() + 1);
+//        mt.setPageSize(pageCompany.getSize());
+//        mt.setPages(pageCompany.getTotalPages());
+//        mt.setTotal(pageCompany.getTotalPages());
+//        rs.setMeta(mt);
+//        rs.setResult(pageCompany.getContent());
+//
+//        return rs;
+//
+//    }
+
     public ResultPaginationDTO getAllCompanies(Specification<Company> spec, Pageable pageable){
-//        return this.companyRepository.findAll(pageable);
-        Page<Company> pageCompany = this.companyRepository.findAll(pageable);
+        Page<Company> pageCompany = this.companyRepository.findAll(spec,pageable);
         ResultPaginationDTO rs = new ResultPaginationDTO();
         Meta mt = new Meta();
-        mt.setPage(pageCompany.getNumber() + 1);
-        mt.setPageSize(pageCompany.getSize());
+        mt.setPage(pageable.getPageNumber() + 1);
+        mt.setPageSize(pageable.getPageSize());
         mt.setPages(pageCompany.getTotalPages());
         mt.setTotal(pageCompany.getTotalPages());
+
         rs.setMeta(mt);
-        rs.setResult(pageCompany.getContent());
+//        List<ResUserDTO> listUser = pageUser.getContent();
+//        List<User> userList = pageUser.getContent();
+//        List<ResUserDTO> dtoList = new ArrayList<>();
+//
+//        for (User user : userList) {
+//            ResUserDTO dto = new ResUserDTO(
+//                    user.getId(),
+//                    user.getName(),
+//                    user.getEmail(),
+//                    user.getGender(),
+//                    user.getAddress(),
+//                    user.getAge(),
+//                    user.getCreatedAt(),
+//                    user.getUpdatedAt()
+//            );
+//            dtoList.add(dto);
+//        }
+        List<ResCompanyDTO> listCompany = pageCompany.getContent()
+
+                .stream().map(item ->new ResCompanyDTO(
+                        item.getId(),
+                        item.getName(),
+                        item.getDescription(),
+                        item.getAddress(),
+                        item.getLogo(),
+                        item.getCreatedAt(),
+                        item.getUpdatedAt(),
+                        item.getUpdatedBy(),
+                        item.getCreatedBy()
+
+
+                )).collect(Collectors.toList());
+        rs.setResult(listCompany);
 
         return rs;
-
     }
     public Company updateCompany(int id,Company Updatecompany){
         Optional<Company> exitscompany = this.companyRepository.findById(id);

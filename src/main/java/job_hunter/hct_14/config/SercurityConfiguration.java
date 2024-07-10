@@ -49,7 +49,7 @@ public class SercurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
         http.authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/", "/api/v1/login").permitAll()
+                        .requestMatchers("/", "/api/v1/auth/login","/api/v1/auth/refresh","/").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())
@@ -72,7 +72,7 @@ public class SercurityConfiguration {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new
                 JwtGrantedAuthoritiesConverter();
         grantedAuthoritiesConverter.setAuthorityPrefix("");
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("Hoangthanh");
+        grantedAuthoritiesConverter.setAuthoritiesClaimName("permission");
         JwtAuthenticationConverter jwtAuthenticationConverter = new
                 JwtAuthenticationConverter();
 
@@ -89,12 +89,11 @@ public class SercurityConfiguration {
         return token -> {
             try {
                 return jwtDecoder.decode(token);
+
             } catch (Exception e) {
                 System.out.println(">>> JWT error: " + e.getMessage());
                 throw e;
             }
-
-
 
         };
 

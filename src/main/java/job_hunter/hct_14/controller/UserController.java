@@ -42,7 +42,7 @@ public class UserController {
         return "hoang cong thanh dep trai ";
     }
 //    @GetMapping()
-    @PostMapping("/user")
+    @PostMapping("/users")
     @ApiMessage("Create a new user")
     public ResponseEntity<ResCreateUserDTO> createNewUser(@Valid @RequestBody User postManUser) throws IdInvaldException{
         boolean isEmailExist = this.userService.isEmailExist(postManUser.getEmail());
@@ -56,7 +56,7 @@ public class UserController {
         User createUser = this.userService.handleCreateUser(postManUser);
             return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.converToResCreateUserDTO(createUser));
     }
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable int id)
         throws IdInvaldException{
         User currentUser = this.userService.findById(id);
@@ -67,7 +67,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("xoa oke");
 
     }
-    @GetMapping("/user/find/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<ResUserDTO> findById(@PathVariable int id) {
 //        User fetchUser = this.userService.findById(id);
 //        return ResponseEntity.status(HttpStatus.OK).body(fetchUser);
@@ -89,15 +89,17 @@ public class UserController {
     }
 
 
-    @GetMapping("/findall")
+    @GetMapping("/users")
     @ApiMessage("fetch all users")
     public ResponseEntity<ResultPaginationDTO> getAllUser(@Filter Specification<User> spec, Pageable pageable) {
 
 
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.findbyAllUser(spec, pageable));
     }
-    @PutMapping("/user/{id}")
-        public ResponseEntity<ResUserDTO> updateUser(@RequestBody User user) throws IdInvaldException {
+
+
+    @PutMapping("/users/{id}")
+        public ResponseEntity<ResUserDTO> updateUser(@PathVariable int id ,@RequestBody User user) throws IdInvaldException {
             User userupdate = this.userService.updateUser(user);
             if (userupdate != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUserDTO(userupdate));
