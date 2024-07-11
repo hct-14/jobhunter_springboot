@@ -1,14 +1,14 @@
-package job_hunter.hct_14.entity.DTO;
+package job_hunter.hct_14.entity.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class LoginDTO {
+public class ReqLoginDTO {
     @NotBlank(message = " user khong duoc de trong dau em")
     private String username;
     @NotBlank(message = "password khogn duoc de trong dau em")
     private String password;
 
-    public LoginDTO(String username, String password) {
+    public ReqLoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }
