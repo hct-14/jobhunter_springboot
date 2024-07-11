@@ -1,6 +1,7 @@
-package job_hunter.hct_14.service;
+package job_hunter.hct_14.config;
 
 import job_hunter.hct_14.entity.User;
+import job_hunter.hct_14.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

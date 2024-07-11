@@ -1,4 +1,4 @@
-package job_hunter.hct_14.entity.DTO;
+package job_hunter.hct_14.entity.response;
 
 import job_hunter.hct_14.util.constant.GenderEnum;
 import lombok.Getter;

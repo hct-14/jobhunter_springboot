@@ -1,4 +1,4 @@
-package job_hunter.hct_14.entity.DTO;
+package job_hunter.hct_14.entity.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,14 +1,13 @@
 package job_hunter.hct_14.controller;
 
 import jakarta.validation.Valid;
-import job_hunter.hct_14.entity.DTO.LoginDTO;
-import job_hunter.hct_14.entity.DTO.ResLoginDTO;
+import job_hunter.hct_14.entity.response.ResLoginDTO;
 import job_hunter.hct_14.entity.User;
+import job_hunter.hct_14.entity.request.ReqLoginDTO;
 import job_hunter.hct_14.service.UserService;
 import job_hunter.hct_14.util.SercuryUtil;
 import job_hunter.hct_14.util.annotation.ApiMessage;
 import job_hunter.hct_14.util.error.IdInvaldException;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -36,7 +35,7 @@ public class AuthController {
     }
 //    private final AuthenticationManagerBuilder authenticationManagerBuilder;
         @PostMapping("/login")
-        public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody LoginDTO loginDto) throws IdInvaldException {
+        public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody ReqLoginDTO loginDto) throws IdInvaldException {
             // Nạp input gồm username/password vào Security
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     loginDto.getUsername(), loginDto.getPassword());

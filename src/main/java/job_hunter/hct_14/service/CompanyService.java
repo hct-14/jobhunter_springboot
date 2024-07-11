@@ -1,18 +1,15 @@
 package job_hunter.hct_14.service;
 
 import job_hunter.hct_14.entity.Company;
-import job_hunter.hct_14.entity.DTO.Meta;
-import job_hunter.hct_14.entity.DTO.ResCompanyDTO;
-import job_hunter.hct_14.entity.DTO.ResUserDTO;
+//import job_hunter.hct_14.entity.DTO.Meta;
+import job_hunter.hct_14.entity.response.ResCompanyDTO;
 import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
-import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.repository.CompanyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -66,7 +63,7 @@ public class CompanyService {
     public ResultPaginationDTO getAllCompanies(Specification<Company> spec, Pageable pageable){
         Page<Company> pageCompany = this.companyRepository.findAll(spec,pageable);
         ResultPaginationDTO rs = new ResultPaginationDTO();
-        Meta mt = new Meta();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
         mt.setPage(pageable.getPageNumber() + 1);
         mt.setPageSize(pageable.getPageSize());
         mt.setPages(pageCompany.getTotalPages());

@@ -2,8 +2,8 @@ package job_hunter.hct_14.controller;
 
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
-import job_hunter.hct_14.entity.DTO.ResCreateUserDTO;
-import job_hunter.hct_14.entity.DTO.ResUserDTO;
+import job_hunter.hct_14.entity.response.ResCreateUserDTO;
+import job_hunter.hct_14.entity.response.ResUserDTO;
 import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
 import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.service.UserService;

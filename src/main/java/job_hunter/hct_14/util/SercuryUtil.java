@@ -1,7 +1,7 @@
 package job_hunter.hct_14.util;
 
 import com.nimbusds.jose.util.Base64;
-import job_hunter.hct_14.entity.DTO.ResLoginDTO;
+import job_hunter.hct_14.entity.response.ResLoginDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

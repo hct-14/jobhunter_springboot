@@ -1,9 +1,8 @@
 package job_hunter.hct_14.service;
 
 import jakarta.transaction.Transactional;
-import job_hunter.hct_14.entity.DTO.Meta;
-import job_hunter.hct_14.entity.DTO.ResCreateUserDTO;
-import job_hunter.hct_14.entity.DTO.ResUserDTO;
+import job_hunter.hct_14.entity.response.ResCreateUserDTO;
+import job_hunter.hct_14.entity.response.ResUserDTO;
 import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
 import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.repository.UserRepository;
@@ -12,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,7 +55,7 @@ public class UserService{
     public ResultPaginationDTO findbyAllUser(Specification<User> spec, Pageable pageable){
         Page<User> pageUser = this.userRepository.findAll(spec,pageable);
         ResultPaginationDTO rs = new ResultPaginationDTO();
-        Meta mt = new Meta();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
         mt.setPage(pageable.getPageNumber() + 1);
         mt.setPageSize(pageable.getPageSize());
         mt.setPages(pageUser.getTotalPages());
