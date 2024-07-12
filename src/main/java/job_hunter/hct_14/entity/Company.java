@@ -1,6 +1,7 @@
 package job_hunter.hct_14.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -40,8 +41,11 @@ public class Company {
     private String createdBy;
 //    SercuryUtil
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+//    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
+
+//    @JsonManagedReference
+     @JsonIgnore
 
     List<User> users;
 

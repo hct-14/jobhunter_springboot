@@ -1,11 +1,14 @@
 package job_hunter.hct_14.service;
 
+import jakarta.transaction.Transactional;
 import job_hunter.hct_14.entity.Company;
 //import job_hunter.hct_14.entity.DTO.Meta;
+import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.entity.response.ResCompanyDTO;
 import job_hunter.hct_14.entity.response.ResUpdateCom;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.repository.CompanyRepository;
+import job_hunter.hct_14.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,9 +22,10 @@ import java.util.stream.Collectors;
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
-
-    public CompanyService(CompanyRepository companyRepository) {
+    private final UserRepository userRepository;
+    public CompanyService(CompanyRepository companyRepository, UserRepository userRepository) {
         this.companyRepository = companyRepository;
+        this.userRepository = userRepository;
     }
     public Company createCompany(Company company){
         return this.companyRepository.save(company);
@@ -125,14 +129,27 @@ public class CompanyService {
         return null;
     }
 
+    @Transactional
+    public void DeleteCompany(int id) {
+        Optional<Company> companyOptional = companyRepository.findById(id);
+        if (companyOptional.isPresent()) {
+            Company company = companyOptional.get();
 
-    public void DeleteCompany(int id){
-        Optional<Company> company = this.companyRepository.findById(id);
-        if(company.isPresent()){
-            this.companyRepository.delete(company.get());
+            // Tìm tất cả người dùng thuộc công ty này và đặt company = null
+            List<User> users = userRepository.findByCompany(company);
+            for (User user : users) {
+                user.setCompany(null); // Đặt company của User về null
+                userRepository.save(user); // Cập nhật người dùng trong cơ sở dữ liệu
+            }
+
+            // Xóa công ty (hoặc đánh dấu xóa mềm nếu áp dụng)
+            companyRepository.delete(company);
         }
-
     }
+
+    //    public void deleteUsers(List<Integer> user) {
+//        this.userRepository.deleteAll(user);
+//    }
     public ResUpdateCom converToResUpdateCopanyDTO(Company company) {
         ResUpdateCom res = new ResUpdateCom();
 

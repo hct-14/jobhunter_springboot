@@ -121,6 +121,10 @@ public User updateUser(User requestUser) {
         // update
         currentUser = this.userRepository.save(currentUser);
     }
+    if (requestUser.getCompany() != null){
+        Optional<Company> companyOptional = this.companyService.findById(requestUser.getCompany().getId());
+        requestUser.setCompany(companyOptional.isPresent() ? companyOptional.get(): null);
+    }
     return currentUser;
 }
 
@@ -172,9 +176,10 @@ public User updateUser(User requestUser) {
     public ResUpdateUserDTO converToResUpdateUserDTO(User user) {
         ResUpdateUserDTO res = new ResUpdateUserDTO();
 
+        ResUpdateUserDTO.CompanyUser companyUser = new ResUpdateUserDTO.CompanyUser();
+
         // Đặt thông tin công ty nếu tồn tại
         if (user.getCompany() != null) {
-            ResUpdateUserDTO.CompanyUser companyUser = new ResUpdateUserDTO.CompanyUser();
             companyUser.setId(user.getCompany().getId());
             companyUser.setName(user.getCompany().getName());
             res.setCompanyUser(companyUser);
@@ -204,6 +209,10 @@ public User updateUser(User requestUser) {
         return this.userRepository.findByRefreshTokenAndEmail(token, email);
     }
 
+
+//    public List<User> findByCompany(Company company) {
+//        return this.userRepository.findByCompany(company);
+//    }
 
 
 }

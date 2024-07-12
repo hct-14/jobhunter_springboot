@@ -44,7 +44,7 @@ public class User {
     private String updatedBy;
 
 
-    @ManyToOne
+    @ManyToOne(optional = true)
     @JoinColumn(name="company_id")
     @JsonBackReference
     private Company company;
@@ -62,5 +62,8 @@ public class User {
         Optional<String> currentUserLogin = SercuryUtil.getCurrentUserLogin();
         this.updatedBy = currentUserLogin.orElse(null);
         this.updatedAt = Instant.now();
+    }
+    public void removeCompany() {
+        this.company = null;
     }
 }

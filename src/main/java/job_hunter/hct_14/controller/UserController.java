@@ -2,7 +2,6 @@ package job_hunter.hct_14.controller;
 
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
-import job_hunter.hct_14.entity.Company;
 import job_hunter.hct_14.entity.response.ResCreateUserDTO;
 import job_hunter.hct_14.entity.response.ResUpdateUserDTO;
 import job_hunter.hct_14.entity.response.ResUserDTO;
@@ -101,15 +100,13 @@ public class UserController {
 
 
     @PutMapping("/users")
-//    @ApiMessage("Update a user")
+    @ApiMessage("Update a user")
     public ResponseEntity<ResUpdateUserDTO> updateUser(@RequestBody User user) throws IdInvaldException {
-//        User ericUser = this.userService.updateUser(user);
-//        if (ericUser == null) {
-//            throw new IdInvaldException("User với id = " + user.getId() + " không tồn tại");
-//        }
-//        return ResponseEntity.ok(this.userService.converToResUpdateUserDTO(ericUser));
-        User updatedUser = this.userService.updateUser(user);
-        return ResponseEntity.ok(this.userService.converToResUpdateUserDTO(updatedUser));
+        User ericUser = this.userService.updateUser(user);
+        if (ericUser == null) {
+            throw new IdInvaldException("User với id = " + user.getId() + " không tồn tại");
+        }
+        return ResponseEntity.ok(this.userService.converToResUpdateUserDTO(ericUser));
     }
 
 
