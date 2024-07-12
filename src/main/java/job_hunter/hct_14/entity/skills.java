@@ -1,57 +1,38 @@
 package job_hunter.hct_14.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import job_hunter.hct_14.util.SercuryUtil;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 @Entity
-@Table(name = "companies")
 @Getter
 @Setter
-//@AllArgsConstructor
-
-public class Company {
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "skills")
+public class skills {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotBlank(message = "name khong duoc de trong dau em oi")
-    private String name;
-    @NotBlank(message = "desc không được để trống đâu em ơi")
     @Column(columnDefinition = "MEDIUMTEXT")
-    private String description;
-    private String address;
-    private String logo;
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss a", timezone = "GMT+7")
+    private String name;
     private Instant createdAt;
     private Instant updatedAt;
-    private String updatedBy;
     private String createdBy;
-//    SercuryUtil
+    private String updatedBy;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
-//    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
-
-//    @JsonManagedReference
-     @JsonIgnore
-    List<User> users;
-
-
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "skills")
     @JsonIgnore
-    List<job> jobs;
+    private List<job> jobs;
+
 
     @PrePersist
     public void handleBeforeCreatedateAt() {
@@ -66,5 +47,4 @@ public class Company {
         this.updatedBy = currentUserLogin.orElse(null);
         this.updatedAt = Instant.now();
     }
-
 }
