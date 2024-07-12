@@ -1,7 +1,7 @@
 package job_hunter.hct_14.util;
 
 import jakarta.servlet.http.HttpServletResponse;
-import job_hunter.hct_14.entity.DTO.RestResponse;
+import job_hunter.hct_14.entity.response.RestResponse;
 import job_hunter.hct_14.util.annotation.ApiMessage;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

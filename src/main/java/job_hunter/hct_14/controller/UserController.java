@@ -2,9 +2,11 @@ package job_hunter.hct_14.controller;
 
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
+import job_hunter.hct_14.entity.Company;
 import job_hunter.hct_14.entity.response.ResCreateUserDTO;
+import job_hunter.hct_14.entity.response.ResUpdateUserDTO;
 import job_hunter.hct_14.entity.response.ResUserDTO;
-import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
+import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.service.UserService;
 import job_hunter.hct_14.util.annotation.ApiMessage;
@@ -98,18 +100,18 @@ public class UserController {
     }
 
 
-    @PutMapping("/users/{id}")
-        public ResponseEntity<ResUserDTO> updateUser(@PathVariable int id ,@RequestBody User user) throws IdInvaldException {
-            User userupdate = this.userService.updateUser(user);
-            if (userupdate != null) {
-                return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUserDTO(userupdate));
-//
-            } else {
-              throw new IdInvaldException("khong co user nao ca");
+    @PutMapping("/users")
+//    @ApiMessage("Update a user")
+    public ResponseEntity<ResUpdateUserDTO> updateUser(@RequestBody User user) throws IdInvaldException {
+//        User ericUser = this.userService.updateUser(user);
+//        if (ericUser == null) {
+//            throw new IdInvaldException("User với id = " + user.getId() + " không tồn tại");
+//        }
+//        return ResponseEntity.ok(this.userService.converToResUpdateUserDTO(ericUser));
+        User updatedUser = this.userService.updateUser(user);
+        return ResponseEntity.ok(this.userService.converToResUpdateUserDTO(updatedUser));
+    }
 
-            }
-    //        return userupdate;
-//            return ResponseEntity.status(HttpStatus.OK).body(userupdate);
-        }
+
 
 }

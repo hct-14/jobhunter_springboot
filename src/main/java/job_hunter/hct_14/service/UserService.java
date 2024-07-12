@@ -1,9 +1,11 @@
 package job_hunter.hct_14.service;
 
 import jakarta.transaction.Transactional;
+import job_hunter.hct_14.entity.Company;
 import job_hunter.hct_14.entity.response.ResCreateUserDTO;
+import job_hunter.hct_14.entity.response.ResUpdateUserDTO;
 import job_hunter.hct_14.entity.response.ResUserDTO;
-import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
+import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -19,10 +21,12 @@ import java.util.stream.Collectors;
 public class UserService{
 
     private final UserRepository userRepository;
+    private final CompanyService companyService;
 
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, CompanyService companyService){
         this.userRepository = userRepository;
+        this.companyService = companyService;
     }
 
     public boolean isEmailExist(String email){
@@ -31,6 +35,12 @@ public class UserService{
 //    public User findByEmail()
     //create
     public User handleCreateUser(User user) {
+
+        if (user.getCompany() !=null){
+            Optional<Company> companyOptional = this.companyService.findById(user.getCompany().getId());
+            user.setCompany(companyOptional.isPresent() ? companyOptional.get() : null);
+
+        }
 
         return this.userRepository.save(user);
 
@@ -89,36 +99,38 @@ public class UserService{
                         item.getAddress(),
                         item.getAge(),
                         item.getCreatedAt(),
-                        item.getUpdatedAt()
-                ) ).collect(Collectors.toList());
+                        item.getUpdatedAt(),new ResUserDTO.CompanyUser(
+                        item.getCompany() != null ? item.getCompany().getId() : 0,
+                        item.getCompany() != null ? item.getCompany().getName() : null)))
+                .collect(Collectors.toList());
+
+
         rs.setResult(listUser);
 
         return rs;
     }
-    @Transactional
-    public User updateUser(User requestUser) {
-        // Tìm người dùng hiện tại bằng ID từ requestUser
-        User existingUser = this.findById(requestUser.getId());
-        if (existingUser != null) {
-            // Cập nhật thông tin của người dùng hiện tại bằng các giá trị từ requestUser
-            existingUser.setName(requestUser.getName());
-            existingUser.setEmail(requestUser.getEmail());
-            existingUser.setPassWord(requestUser.getPassWord());
-            existingUser.setAddress(requestUser.getAddress());
-            existingUser.setAge(requestUser.getAge());
-            existingUser.setGender(requestUser.getGender());
-            // Lưu người dùng đã cập nhật vào cơ sở dữ liệu và trả về
-            return this.userRepository.save(existingUser);
-        } else {
-            // Trả về null nếu người dùng không tồn tại
-            return null;
-        }
+//    @Transactional
+public User updateUser(User requestUser) {
+    User currentUser = this.findById(requestUser.getId());
+    if (currentUser != null) {
+        currentUser.setAddress(requestUser.getAddress());
+        currentUser.setGender(requestUser.getGender());
+        currentUser.setAge(requestUser.getAge());
+        currentUser.setName(requestUser.getName());
+
+        // update
+        currentUser = this.userRepository.save(currentUser);
     }
+    return currentUser;
+}
+
+
     public User handleGetUserByUsername(String username) {
         return this.userRepository.findByEmail(username);
     }
     public ResCreateUserDTO converToResCreateUserDTO(User user){
         ResCreateUserDTO res = new ResCreateUserDTO();
+        ResCreateUserDTO.CompanyUser companyUser = new ResCreateUserDTO.CompanyUser();
         res.setId(user.getId());
         res.setName(user.getName());
         res.setGender(user.getGender());
@@ -127,6 +139,11 @@ public class UserService{
         res.setCreatedAt(user.getCreatedAt());
         res.setAddress(user.getAddress());
 //        res.setGender();
+        if (user.getCompany() != null){
+            companyUser.setId(user.getCompany().getId());
+            companyUser.setName(user.getCompany().getName());
+            res.setCompanyUser(companyUser);
+        }
 
         return  res;
     }
@@ -143,9 +160,39 @@ public class UserService{
         res.setGender(user.getGender());
         res.setUpdatedAt(user.getUpdatedAt());
         res.setCreatedAt(user.getCreatedAt());
+        ResUserDTO.CompanyUser companyUser = new ResUserDTO.CompanyUser();
+        if (user.getCompany() != null){
+            companyUser.setId(user.getCompany().getId());
+            companyUser.setName(user.getCompany().getName());
+            res.setCompany(companyUser);
+        }
 
         return  res;
     }
+    public ResUpdateUserDTO converToResUpdateUserDTO(User user) {
+        ResUpdateUserDTO res = new ResUpdateUserDTO();
+
+        // Đặt thông tin công ty nếu tồn tại
+        if (user.getCompany() != null) {
+            ResUpdateUserDTO.CompanyUser companyUser = new ResUpdateUserDTO.CompanyUser();
+            companyUser.setId(user.getCompany().getId());
+            companyUser.setName(user.getCompany().getName());
+            res.setCompanyUser(companyUser);
+        }
+
+        // Đặt thông tin người dùng
+        res.setId(user.getId());
+        res.setName(user.getName());
+        res.setGender(user.getGender());
+        res.setEmail(user.getEmail());
+        res.setAge(user.getAge());
+        res.setCreatedAt(user.getCreatedAt());
+        res.setAddress(user.getAddress());
+        res.setUpdatedAt(user.getUpdatedAt());
+
+        return res;
+    }
+
     public void updateUserToken(String token, String email){
         User currentUser = this.handleGetUserByUsername(email);
         if(currentUser != null){

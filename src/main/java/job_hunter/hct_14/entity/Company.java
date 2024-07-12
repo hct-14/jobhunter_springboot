@@ -1,8 +1,10 @@
 package job_hunter.hct_14.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,16 +13,19 @@ import job_hunter.hct_14.util.SercuryUtil;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Entity
 @Table(name = "companies")
 @Getter
 @Setter
+//@AllArgsConstructor
+
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     @NotBlank(message = "name khong duoc de trong dau em oi")
     private String name;
     @NotBlank(message = "desc không được để trống đâu em ơi")
@@ -34,6 +39,11 @@ public class Company {
     private String updatedBy;
     private String createdBy;
 //    SercuryUtil
+
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    @JsonManagedReference
+
+    List<User> users;
 
     @PrePersist
     public void handleBeforeCreatedateAt() {

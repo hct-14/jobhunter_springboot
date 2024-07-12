@@ -4,8 +4,11 @@ package job_hunter.hct_14.controller;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import job_hunter.hct_14.entity.Company;
-import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
+import job_hunter.hct_14.entity.User;
+import job_hunter.hct_14.entity.response.ResUpdateCom;
+import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.service.CompanyService;
+import job_hunter.hct_14.util.error.IdInvaldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -37,11 +40,13 @@ public class CompanyController {
         return ResponseEntity.status(HttpStatus.OK).body(this.companyService.getAllCompanies(spec,pageable));
     }
 
-    @PutMapping("/companies/{id}")
-    public ResponseEntity<Company> updateCompany(@PathVariable int id, @Valid @RequestBody Company company) {
-        Company updateCompany = this.companyService.updateCompany(id, company);
-        return ResponseEntity.status(HttpStatus.OK).body(updateCompany);
+    @PutMapping("/companies")
+//    public ResponseEntity<ResUpdateCom> updateCompany(@Valid @RequestBody Company reqCompany) throws IdInvaldException {
+     public ResponseEntity<Company> updateCompany(@Valid @RequestBody Company reqCompany)throws IdInvaldException {
+        Company updatedCompany = this.companyService.updateCompany(reqCompany);
+        return ResponseEntity.ok(updatedCompany);
     }
+
     @DeleteMapping("/companies/{id}")
     public ResponseEntity<String> deleteCompany(@PathVariable int id) {
         this.companyService.deleteCompany(id);

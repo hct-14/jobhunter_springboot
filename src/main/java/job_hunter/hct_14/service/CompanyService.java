@@ -3,7 +3,8 @@ package job_hunter.hct_14.service;
 import job_hunter.hct_14.entity.Company;
 //import job_hunter.hct_14.entity.DTO.Meta;
 import job_hunter.hct_14.entity.response.ResCompanyDTO;
-import job_hunter.hct_14.entity.DTO.ResultPaginationDTO;
+import job_hunter.hct_14.entity.response.ResUpdateCom;
+import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.repository.CompanyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,13 +38,16 @@ public class CompanyService {
         return null;
     }
 
-    public Company findId(int id){
-        Optional<Company> company = this.companyRepository.findById(id);
-        if(company.isPresent()){
-            return company.get();
-        }
-        return null;
+    public Optional<Company> findById(int id) {
+        return this.companyRepository.findById(id);
+//        Optional<User> userOptional = this.userRepository.findById(id);
+//        if (userOptional.isPresent()){
+//            return userOptional.get();
+//        }
+//        return null;
+//    }
     }
+
 //    public ResultPaginationDTO getAllCompanies(Specification<Company> spec, Pageable pageable){
 ////        return this.companyRepository.findAll(pageable);
 //        Page<Company> pageCompany = this.companyRepository.findAll(pageable);
@@ -106,17 +110,21 @@ public class CompanyService {
 
         return rs;
     }
-    public Company updateCompany(int id,Company Updatecompany){
-        Optional<Company> exitscompany = this.companyRepository.findById(id);
-        if(exitscompany.isPresent()){
-            exitscompany.get().setName(Updatecompany.getName());
-            exitscompany.get().setAddress(Updatecompany.getAddress());
-            exitscompany.get().setLogo(Updatecompany.getLogo());
-            exitscompany.get().setDescription(Updatecompany.getDescription());
-            return this.companyRepository.save(exitscompany.get());
+    public Company updateCompany(Company reqCompany) {
+        Optional<Company> currentCompanyOpt = this.findById(reqCompany.getId());
+        if (currentCompanyOpt.isPresent()) {
+            Company currentCompany = currentCompanyOpt.get();
+            currentCompany.setName(reqCompany.getName());
+            currentCompany.setDescription(reqCompany.getDescription());
+            currentCompany.setLogo(reqCompany.getLogo());
+            currentCompany.setAddress(reqCompany.getAddress());
+
+            // update
+            return this.companyRepository.save(currentCompany);
         }
         return null;
     }
+
 
     public void DeleteCompany(int id){
         Optional<Company> company = this.companyRepository.findById(id);
@@ -125,4 +133,28 @@ public class CompanyService {
         }
 
     }
+    public ResUpdateCom converToResUpdateCopanyDTO(Company company) {
+        ResUpdateCom res = new ResUpdateCom();
+
+//        // Đặt thông tin user
+//        if (company.getUsers()!= null) {
+//            ResUpdateUserDTO.CompanyUser companyUser = new ResUpdateUserDTO.CompanyUser();
+//            companyUser.setId(company.getUsers());
+//            companyUser.setName(company.getUsers());
+//            res.scompanyUser(companyUser);
+//        }
+
+        // Đặt thông tin người dùng
+        res.setId(res.getId());
+        res.setName(res.getName());
+        res.setDescription(res.getDescription());
+        res.setAddress(res.getAddress());
+        res.setCreatedAt(res.getCreatedAt());
+        res.setUpdatedAt(res.getUpdatedAt());
+        res.setUpdatedBy(res.getCreatedBy());
+        res.setCreatedBy(res.getCreatedBy());
+
+        return res;
+    }
+
 }

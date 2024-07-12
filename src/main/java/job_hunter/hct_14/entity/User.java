@@ -1,5 +1,6 @@
 package job_hunter.hct_14.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import job_hunter.hct_14.util.SercuryUtil;
@@ -41,6 +42,13 @@ public class User {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
+
+
+    @ManyToOne
+    @JoinColumn(name="company_id")
+    @JsonBackReference
+    private Company company;
+
 
     @PrePersist
     public void handleBeforeCreatedateAt() {

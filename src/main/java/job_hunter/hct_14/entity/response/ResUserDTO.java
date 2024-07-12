@@ -12,9 +12,6 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResUserDTO {
-
-
-//    public class ResCreateUserDTO {
         private int id;
         private String name;
         private String email;
@@ -23,6 +20,17 @@ public class ResUserDTO {
         private int age;
         private Instant createdAt;
         private Instant updatedAt;
+
+        private CompanyUser company;
+
+        @Getter
+        @Setter
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class CompanyUser{
+                private int id;
+                private String name;
+        }
     }
 
 
