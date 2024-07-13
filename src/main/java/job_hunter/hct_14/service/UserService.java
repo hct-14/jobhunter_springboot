@@ -1,6 +1,5 @@
 package job_hunter.hct_14.service;
 
-import jakarta.transaction.Transactional;
 import job_hunter.hct_14.entity.Company;
 import job_hunter.hct_14.entity.response.ResCreateUserDTO;
 import job_hunter.hct_14.entity.response.ResUpdateUserDTO;
@@ -99,7 +98,8 @@ public class UserService{
                         item.getAddress(),
                         item.getAge(),
                         item.getCreatedAt(),
-                        item.getUpdatedAt(),new ResUserDTO.CompanyUser(
+                        item.getUpdatedAt(),
+                        new ResUserDTO.CompanyUser(
                         item.getCompany() != null ? item.getCompany().getId() : 0,
                         item.getCompany() != null ? item.getCompany().getName() : null)))
                 .collect(Collectors.toList());

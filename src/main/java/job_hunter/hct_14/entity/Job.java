@@ -1,6 +1,5 @@
 package job_hunter.hct_14.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import job_hunter.hct_14.util.SercuryUtil;
@@ -11,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +19,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "jobs")
-public class job {
+public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -51,7 +49,7 @@ public class job {
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = {"jobs"})
     @JoinTable(name = "job_skill",joinColumns= @JoinColumn(name = "job_id"),inverseJoinColumns = @JoinColumn(name = "skill_id"))
-    private List<skills> skills;
+    private List<Skills> skills;
 
     @PrePersist
     public void handleBeforeCreatedateAt() {
