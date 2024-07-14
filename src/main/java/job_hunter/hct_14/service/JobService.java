@@ -1,13 +1,14 @@
 package job_hunter.hct_14.service;
 
 import job_hunter.hct_14.entity.Job;
-import job_hunter.hct_14.entity.User;
+import job_hunter.hct_14.entity.Skills;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobCreateDTO;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobDTO;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobUpdateDTO;
 import job_hunter.hct_14.entity.response.ResUserDTO;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.repository.JobReponsetory;
+import job_hunter.hct_14.repository.SkillReponsetory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,9 +21,10 @@ import java.util.stream.Collectors;
 @Service
 public class JobService {
     private final JobReponsetory jobReponsetory;
-
-    public JobService(JobReponsetory jobReponsetory) {
+    private final SkillReponsetory skillReponsetory;
+    public JobService(JobReponsetory jobReponsetory, SkillReponsetory skillReponsetory) {
         this.jobReponsetory = jobReponsetory;
+        this.skillReponsetory = skillReponsetory;
     }
 
 
@@ -103,6 +105,16 @@ public class JobService {
 
 
     public ResJobCreateDTO convertCreateJobDTO(Job job){
+        // check skills
+        if (job.getSkills() != null) {
+            List<Integer> reqSkills = job.getSkills().stream().map(x -> x.getId()).collect(Collectors.toList());
+
+            List<Skills> dbSkills = this.skillReponsetory.findByIdIn(reqSkills);
+            job.setSkills(dbSkills);
+        }
+
+        Job currentJob = this.jobReponsetory.save(job);
+
         ResJobCreateDTO res = new ResJobCreateDTO();
 
         res.setId(job.getId());
@@ -119,10 +131,18 @@ public class JobService {
         res.setUpdatedAt(job.getUpdatedAt());
         res.setCreatedBy(job.getCreatedBy());
         res.setUpdatedBy(job.getUpdatedBy());
+        if (currentJob.getSkills() != null) {
+            List<String> skills = currentJob.getSkills()
+                    .stream().map(item -> item.getName())
+                    .collect(Collectors.toList());
+            res.setSkills(skills);
+        }
 
         return  res;
     }
-
+    public void delete(int id) {
+        this.jobReponsetory.deleteById(id);
+    }
     public ResJobUpdateDTO convertUpdateJobDTO(Job job){
         ResJobUpdateDTO res = new ResJobUpdateDTO();
 

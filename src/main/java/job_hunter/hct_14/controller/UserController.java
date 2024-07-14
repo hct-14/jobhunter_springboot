@@ -94,7 +94,6 @@ public class UserController {
     @ApiMessage("fetch all users")
     public ResponseEntity<ResultPaginationDTO> getAllUser(@Filter Specification<User> spec, Pageable pageable) {
 
-
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.findbyAllUser(spec, pageable));
     }
 

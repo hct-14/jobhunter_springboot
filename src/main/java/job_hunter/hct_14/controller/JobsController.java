@@ -3,7 +3,6 @@ package job_hunter.hct_14.controller;
 
 import com.turkraft.springfilter.boot.Filter;
 import job_hunter.hct_14.entity.Job;
-import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobCreateDTO;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobUpdateDTO;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
@@ -16,8 +15,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -53,6 +50,27 @@ public class JobsController {
     public ResponseEntity<ResultPaginationDTO> getAllJob(@Filter Specification<Job> spec, Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(this.jobService.findByAllJobs(spec, pageable));
     }
+    @GetMapping("/jobs/{id}")
+    @ApiMessage("fetch all users")
+    public ResponseEntity<Job> getJobByid(Job job,@PathVariable int id) throws IdInvaldException {
+        Job JobCheck = this.jobService.findById(id);
+        if (JobCheck == null){
+            throw new IdInvaldException("job này khoogn tồn tại emo ơi");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(JobCheck);
+
+    }
+    @DeleteMapping("/jobs/{id}")
+    @ApiMessage("Delete a job by id")
+    public ResponseEntity<String> delete(@PathVariable("id") int id) throws IdInvaldException {
+        Job currentJob = this.jobService.findById(id);
+        if (currentJob==null) {
+            throw new IdInvaldException("Job not found");
+        }
+        this.jobService.delete(id);
+        return ResponseEntity.ok().body("xoa oke");
+    }
+
 
 
 
