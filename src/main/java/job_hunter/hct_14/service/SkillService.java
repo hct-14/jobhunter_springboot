@@ -4,10 +4,12 @@ import job_hunter.hct_14.entity.Job;
 import job_hunter.hct_14.entity.Skills;
 import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobCreateDTO;
+import job_hunter.hct_14.entity.response.ResUpdateUserDTO;
 import job_hunter.hct_14.entity.response.ResUserDTO;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.entity.response.SkillResponsetory.ResCreateSkillsDTO;
 import job_hunter.hct_14.entity.response.SkillResponsetory.ResSkillDTO;
+import job_hunter.hct_14.entity.response.SkillResponsetory.ResUpdateSkillDTO;
 import job_hunter.hct_14.repository.SkillReponsetory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +54,7 @@ public class SkillService {
         // delete skill
         this.skillReponsetory.delete(currentSkill);
     }
+//    public void
 
 //    public ResultPaginationDTO findbyAll(Specification<Skills> spec, Pageable pageable){
 //        Page<Skills> pageSkils = this.skillReponsetory.findAll(spec, pageable);
@@ -141,6 +144,17 @@ public class SkillService {
         res.setUpdatedBy(skills.getUpdatedBy());
 
 
+        return  res;
+    }
+    public ResUpdateSkillDTO converUpdateSkillDTO(Skills skills){
+        ResUpdateSkillDTO res = new ResUpdateSkillDTO();
+        res.setId(skills.getId());
+        res.setName(skills.getName());
+
+        res.setCreatedAt(skills.getCreatedAt());
+        res.setUpdatedAt(skills.getUpdatedAt());
+        res.setCreatedBy(skills.getCreatedBy());
+        res.setUpdatedBy(skills.getUpdatedBy());
         return  res;
     }
 }

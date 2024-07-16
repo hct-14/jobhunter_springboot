@@ -49,7 +49,7 @@ public class SercurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
         http.authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/", "/api/v1/auth/login","/api/v1/auth/refresh","/").permitAll()
+                        .requestMatchers("/api/v1/", "/api/v1/auth/login","/api/v1/auth/refresh","/storage/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())

@@ -3,9 +3,9 @@ package job_hunter.hct_14.controller;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import job_hunter.hct_14.entity.Skills;
-import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.entity.response.SkillResponsetory.ResCreateSkillsDTO;
+import job_hunter.hct_14.entity.response.SkillResponsetory.ResUpdateSkillDTO;
 import job_hunter.hct_14.service.SkillService;
 import job_hunter.hct_14.util.annotation.ApiMessage;
 import job_hunter.hct_14.util.error.IdInvaldException;
@@ -41,28 +41,43 @@ public class SkilsController {
     }
     @PutMapping("/skills")
     @ApiMessage("call call")
-    public ResponseEntity<Skills> updateSkills(@RequestBody Skills skills){
+    public ResponseEntity<ResUpdateSkillDTO> updateSkills(@RequestBody Skills skills){
         Skills skillsCheck = this.Skillservice.handleUpdate(skills);
 //        Job jobCheck = this.jobService.handleUpdate(job);
 
         if (skillsCheck != null){
-            return ResponseEntity.status(HttpStatus.OK).body(this.Skillservice.handleUpdate(skillsCheck));
+            Skills updateSkill = this.Skillservice.handleUpdate(skills);
+            return ResponseEntity.status(HttpStatus.OK).body(this.Skillservice.converUpdateSkillDTO(updateSkill));
         }
         return null;
     }
     @GetMapping("skill/{id}")
     @ApiMessage("get api success")
-    public ResponseEntity<Skills> getSkills(@PathVariable int id, Skills skills)throws IdInvaldException {
+    public ResponseEntity<ResCreateSkillsDTO> getSkills(@PathVariable int id, Skills skills)throws IdInvaldException {
         Skills skillsCheck = this.Skillservice.findByid(id);
         if (skillsCheck != null){
             throw new IdInvaldException("không có skill này em ơi");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(skillsCheck);
+        Skills getSkill = this.Skillservice.handleUpdate(skills);
+        return ResponseEntity.status(HttpStatus.OK).body(this.Skillservice.convertCreateSkillDTO(getSkill));
     }
     @GetMapping("skills")
     @ApiMessage("get all skills")
     public ResponseEntity<ResultPaginationDTO> findAllSkills(@Filter Specification<Skills> spec, Pageable pageable){
+
         return ResponseEntity.status(HttpStatus.OK).body(this.Skillservice.findbyAllSkills(spec, pageable));
+
+    }
+    @DeleteMapping("skills")
+    @ApiMessage("delete success")
+    public ResponseEntity<Void> deleteSkills(@PathVariable int id) throws IdInvaldException {
+        Skills skillsCheck = this.Skillservice.findByid(id);
+        if (skillsCheck != null){
+            this.Skillservice.deleteSkill(id);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }else {
+            throw new IdInvaldException("không có skill nào cả em ơii");
+        }
 
     }
 }
