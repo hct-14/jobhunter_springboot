@@ -4,8 +4,6 @@ package job_hunter.hct_14.controller;
 import com.turkraft.springfilter.boot.Filter;
 import jakarta.validation.Valid;
 import job_hunter.hct_14.entity.Company;
-import job_hunter.hct_14.entity.User;
-import job_hunter.hct_14.entity.response.ResUpdateCom;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.service.CompanyService;
 import job_hunter.hct_14.util.error.IdInvaldException;
@@ -15,6 +13,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -39,12 +39,21 @@ public class CompanyController {
 //
         return ResponseEntity.status(HttpStatus.OK).body(this.companyService.getAllCompanies(spec,pageable));
     }
+    @GetMapping("/companies/{id}")
+    public ResponseEntity<Optional<Company>> getSigleCompany(@PathVariable int id){
+     Optional<Company> company = this.companyService.findById(id);
+     return ResponseEntity.status(HttpStatus.OK).body(company);
+    }
 
     @PutMapping("/companies")
 //    public ResponseEntity<ResUpdateCom> updateCompany(@Valid @RequestBody Company reqCompany) throws IdInvaldException {
      public ResponseEntity<Company> updateCompany(@Valid @RequestBody Company reqCompany)throws IdInvaldException {
-        Company updatedCompany = this.companyService.updateCompany(reqCompany);
-        return ResponseEntity.ok(updatedCompany);
+        Optional<Company> updatedCompany = this.companyService.findById(reqCompany.getId());
+        if (updatedCompany.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(this.companyService.updateCompany(reqCompany, updatedCompany.get()));
+
+        }
+        throw new IdInvaldException("Job not found");
     }
 
     @DeleteMapping("/companies/{id}")

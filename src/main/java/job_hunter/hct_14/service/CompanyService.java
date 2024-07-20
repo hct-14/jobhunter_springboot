@@ -114,17 +114,34 @@ public class CompanyService {
 
         return rs;
     }
-    public Company updateCompany(Company reqCompany) {
-        Optional<Company> currentCompanyOpt = this.findById(reqCompany.getId());
+    public Company updateCompany(Company companyFe, Company companyBe) {
+
+
+        Optional<Company> currentCompanyOpt = this.findById(companyFe.getId());
+//        if (currentCompanyOpt.isPresent()){
+//           Integer reqCompahe =
+//        }
         if (currentCompanyOpt.isPresent()) {
-            Company currentCompany = currentCompanyOpt.get();
-            currentCompany.setName(reqCompany.getName());
-            currentCompany.setDescription(reqCompany.getDescription());
-            currentCompany.setLogo(reqCompany.getLogo());
-            currentCompany.setAddress(reqCompany.getAddress());
+            if (companyFe.getName() != null){
+                companyBe.setName(companyFe.getName());
+            }
+            if (companyFe.getDescription() != null){
+                companyBe.setDescription(companyFe.getDescription());
+            }
+            if (companyFe.getLogo() != null){
+                companyBe.setLogo(companyFe.getLogo());
+            }
+            if (companyFe.getAddress() !=null){
+                companyBe.setAddress(companyFe.getAddress());
+            }
+//            Company currentCompany = currentCompanyOpt.get();
+//            currentCompany.setName(companyFe.getName());
+//            currentCompany.setDescription(companyFe.getDescription());
+//            currentCompany.setLogo(companyFe.getLogo());
+//            currentCompany.setAddress(companyFe.getAddress());
 
             // update
-            return this.companyRepository.save(currentCompany);
+            return this.companyRepository.save(companyBe);
         }
         return null;
     }

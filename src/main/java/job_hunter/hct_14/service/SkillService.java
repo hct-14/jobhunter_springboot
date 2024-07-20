@@ -105,9 +105,7 @@ public class SkillService {
         mt.setPageSize(pageable.getPageSize());
         mt.setPages(pageSkill.getTotalPages());
         mt.setTotal(pageSkill.getTotalPages());
-
         rs.setMeta(mt);
-
 //        DOMKeyInfo pageSkill;
         List<ResSkillDTO> listSkill = pageSkill.getContent()
 

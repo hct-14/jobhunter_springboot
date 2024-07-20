@@ -2,6 +2,7 @@ package job_hunter.hct_14.controller;
 
 
 import com.turkraft.springfilter.boot.Filter;
+import jakarta.validation.Valid;
 import job_hunter.hct_14.entity.Job;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobCreateDTO;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobUpdateDTO;
@@ -15,6 +16,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -30,15 +33,16 @@ public class JobsController {
         Job savedJob = this.jobService.handleCreateJob(job);
         return ResponseEntity.status(HttpStatus.OK).body(this.jobService.convertCreateJobDTO(savedJob));
     }
-    @PutMapping("jobs")
-    public ResponseEntity<ResJobUpdateDTO> UpdateJob(@RequestBody Job job) throws IdInvaldException {
-        Job jobCheck = this.jobService.handleUpdate(job);
-        if (jobCheck != null){
-            Job updateJob = this.jobService.handleUpdate(jobCheck);
-            return ResponseEntity.status(HttpStatus.OK).body(this.jobService.convertUpdateJobDTO(updateJob));
+    @PutMapping("/jobs")
+    @ApiMessage("Update a job")
+    public ResponseEntity<ResJobUpdateDTO> update(@Valid @RequestBody Job job) throws IdInvaldException {
+        Optional<Job> currentJob = this.jobService.findById(job.getId());
+        if (currentJob.isEmpty()) {
+            throw new IdInvaldException("Job not found");
         }
-        throw new IdInvaldException("khoogn có id nào như này đâu em ơi");
 
+        return ResponseEntity.ok()
+                .body(this.jobService.update(job, currentJob.get()));
     }
 //    @GetMapping("jobs")
 //    public ResponseEntity<List<Job>> getAllJobs() {
@@ -52,19 +56,19 @@ public class JobsController {
     }
     @GetMapping("/jobs/{id}")
     @ApiMessage("fetch all users")
-    public ResponseEntity<Job> getJobByid(Job job,@PathVariable int id) throws IdInvaldException {
-        Job JobCheck = this.jobService.findById(id);
-        if (JobCheck == null){
+    public ResponseEntity<Optional<Job>> getJobByid(Job job, @PathVariable int id) throws IdInvaldException {
+        Optional<Job> currentJob = this.jobService.findById(id);
+        if (!currentJob.isPresent()){
             throw new IdInvaldException("job này khoogn tồn tại emo ơi");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(JobCheck);
+        return ResponseEntity.status(HttpStatus.OK).body(currentJob);
 
     }
     @DeleteMapping("/jobs/{id}")
     @ApiMessage("Delete a job by id")
     public ResponseEntity<String> delete(@PathVariable("id") int id) throws IdInvaldException {
-        Job currentJob = this.jobService.findById(id);
-        if (currentJob==null) {
+        Optional<Job> currentJob = this.jobService.findById(id);
+        if (currentJob.isEmpty()) {
             throw new IdInvaldException("Job not found");
         }
         this.jobService.delete(id);

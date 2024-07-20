@@ -1,5 +1,6 @@
 package job_hunter.hct_14.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import job_hunter.hct_14.util.SercuryUtil;
@@ -45,6 +46,11 @@ public class Job {
     @ManyToOne()
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<Resume> resumes;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = {"jobs"})

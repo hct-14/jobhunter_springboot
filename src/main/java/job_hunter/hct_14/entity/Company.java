@@ -62,4 +62,5 @@ public class Company {
         this.updatedAt = Instant.now();
     }
 
+
 }

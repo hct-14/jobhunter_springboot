@@ -1,5 +1,6 @@
 package job_hunter.hct_14.service;
 
+import job_hunter.hct_14.entity.Company;
 import job_hunter.hct_14.entity.Job;
 import job_hunter.hct_14.entity.Skills;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobCreateDTO;
@@ -7,6 +8,7 @@ import job_hunter.hct_14.entity.response.JobResponsetory.ResJobDTO;
 import job_hunter.hct_14.entity.response.JobResponsetory.ResJobUpdateDTO;
 import job_hunter.hct_14.entity.response.ResUserDTO;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
+import job_hunter.hct_14.repository.CompanyRepository;
 import job_hunter.hct_14.repository.JobReponsetory;
 import job_hunter.hct_14.repository.SkillReponsetory;
 import org.springframework.data.domain.Page;
@@ -22,9 +24,11 @@ import java.util.stream.Collectors;
 public class JobService {
     private final JobReponsetory jobReponsetory;
     private final SkillReponsetory skillReponsetory;
-    public JobService(JobReponsetory jobReponsetory, SkillReponsetory skillReponsetory) {
+    private final CompanyRepository companyRepository;
+    public JobService(JobReponsetory jobReponsetory, SkillReponsetory skillReponsetory, CompanyRepository companyRepository) {
         this.jobReponsetory = jobReponsetory;
         this.skillReponsetory = skillReponsetory;
+        this.companyRepository = companyRepository;
     }
 
 
@@ -33,36 +37,86 @@ public class JobService {
         return this.jobReponsetory.save(job);
     }
 
-    public Job findById(int id){
-        Optional<Job> jobOptional = this.jobReponsetory.findById(id);
-        if (jobOptional.isPresent()){
-            return jobOptional.get();
-//            return userOptional.get();
-
-        }
-        return null;
+    public Optional<Job> findById(int id){
+        return this.jobReponsetory.findById(id);
+//        if (jobOptional.isPresent()){
+//            return jobOptional.get();
+////            return userOptional.get();
+//
+//        }
+//        return null;
     }
-    public Job  handleUpdate(Job job){
-        Job jobCheck = this.findById(job.getId());
-//        User currentUser = this.findById(requestUser.getId());
+    public ResJobUpdateDTO update(Job jobFe, Job jobInDB) {
+        // Kiểm tra skills
+        if (jobFe.getSkills() != null) {
+            List<Integer> reqSkills = jobFe.getSkills()
+                    .stream().map(skillfe -> skillfe.getId())
+                    .collect(Collectors.toList());
 
-        if (job != null){
-            jobCheck.setName(job.getName());
-            jobCheck.setDescription(job.getDescription());
-            jobCheck.setLevel(job.getLevel());
-            jobCheck.setLocation(job.getLocation());
-            jobCheck.setQuantity(job.getQuantity());
-            jobCheck.setSalary(job.getSalary());
-            jobCheck.setActive(job.isActive());
-            jobCheck.setCompany(job.getCompany());
-
-            jobCheck =  this.jobReponsetory.save(jobCheck);
+            List<Skills> dbSkills = this.skillReponsetory.findByIdIn(reqSkills);
+            jobInDB.setSkills(dbSkills);
         }
-        return jobCheck;
+
+        // Kiểm tra company
+        if (jobFe.getCompany() != null) {
+            Optional<Company> cOptional = this.companyRepository.findById(jobFe.getCompany().getId());
+            if (cOptional.isPresent()) {
+                jobInDB.setCompany(cOptional.get());
+            }
+        }
+
+        // Cập nhật thông tin công việc
+        if (jobFe.getName() != null) {
+            jobInDB.setName(jobFe.getName());
+        }
+        if (jobFe.getSalary() != 0.0) {
+            jobInDB.setSalary(jobFe.getSalary());
+        }
+        if (jobFe.getQuantity() != 0) {
+            jobInDB.setQuantity(jobFe.getQuantity());
+        }
+        if (jobFe.getLocation() != null) {
+            jobInDB.setLocation(jobFe.getLocation());
+        }
+        if (jobFe.getLevel() != null) {
+            jobInDB.setLevel(jobFe.getLevel());
+        }
+        if (jobFe.getStartDate() != null) {
+            jobInDB.setStartDate(jobFe.getStartDate());
+        }
+        if (jobFe.getEndDate() != null) {
+            jobInDB.setEndDate(jobFe.getEndDate());
+        }
+        jobInDB.setActive(jobFe.isActive());
+
+        // Cập nhật job
+        Job currentJob = this.jobReponsetory.save(jobInDB);
+
+        // Chuyển đổi response
+        ResJobUpdateDTO dto = new ResJobUpdateDTO();
+        dto.setId(currentJob.getId());
+        dto.setName(currentJob.getName());
+        dto.setSalary(currentJob.getSalary());
+        dto.setQuantity(currentJob.getQuantity());
+        dto.setLocation(currentJob.getLocation());
+        dto.setLevel(currentJob.getLevel());
+        dto.setStartDate(currentJob.getStartDate());
+        dto.setEndDate(currentJob.getEndDate());
+        dto.setActive(currentJob.isActive());
+        dto.setUpdatedAt(currentJob.getUpdatedAt());
+        dto.setUpdatedBy(currentJob.getUpdatedBy());
+
+        if (currentJob.getSkills() != null) {
+            List<String> skills = currentJob.getSkills()
+                    .stream().map(item -> item.getName())
+                    .collect(Collectors.toList());
+            dto.setSkills(skills);
+        }
+
+        return dto;
     }
-//    public List<Job> findByAll() {
-//        return this.jobReponsetory.findAll();
-//    }
+
+
 
     public ResultPaginationDTO findByAllJobs(Specification<Job> spec, Pageable pageable) {
         Page<Job> pageJob = this.jobReponsetory.findAll(spec, pageable);
