@@ -148,25 +148,19 @@ public class CompanyService {
 
     @Transactional
     public void DeleteCompany(int id) {
-        Optional<Company> companyOptional = companyRepository.findById(id);
-        if (companyOptional.isPresent()) {
-            Company company = companyOptional.get();
+        Company company = companyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Company not found"));
 
-            // Tìm tất cả người dùng thuộc công ty này và đặt company = null
-            List<User> users = userRepository.findByCompany(company);
-            for (User user : users) {
-                user.setCompany(null); // Đặt company của User về null
-                userRepository.save(user); // Cập nhật người dùng trong cơ sở dữ liệu
-            }
-
-            // Xóa công ty (hoặc đánh dấu xóa mềm nếu áp dụng)
-            companyRepository.delete(company);
+        // Tìm tất cả người dùng thuộc công ty này và đặt company = null
+        List<User> users = userRepository.findByCompany(company);
+        if (!users.isEmpty()) {
+            users.forEach(user -> user.setCompany(null));
+            userRepository.saveAll(users); // Cập nhật danh sách người dùng
         }
-    }
 
-    //    public void deleteUsers(List<Integer> user) {
-//        this.userRepository.deleteAll(user);
-//    }
+        // Xóa công ty
+        companyRepository.delete(company);
+    }
     public ResUpdateCom converToResUpdateCopanyDTO(Company company) {
         ResUpdateCom res = new ResUpdateCom();
 

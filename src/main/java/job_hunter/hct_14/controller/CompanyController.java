@@ -53,7 +53,7 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.OK).body(this.companyService.updateCompany(reqCompany, updatedCompany.get()));
 
         }
-        throw new IdInvaldException("Job not found");
+        return null;
     }
 
     @DeleteMapping("/companies/{id}")

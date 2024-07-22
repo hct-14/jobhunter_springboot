@@ -28,7 +28,6 @@ public class ResResumeDTO {
 
 //    public void setName(String name) {
 //    }
-
     @Getter
     @Setter
     @AllArgsConstructor

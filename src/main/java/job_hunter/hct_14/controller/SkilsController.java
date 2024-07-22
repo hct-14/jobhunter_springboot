@@ -51,7 +51,7 @@ public class SkilsController {
         }
         return null;
     }
-    @GetMapping("skill/{id}")
+    @GetMapping("/skill/{id}")
     @ApiMessage("get api success")
     public ResponseEntity<ResCreateSkillsDTO> getSkills(@PathVariable int id, Skills skills)throws IdInvaldException {
         Skills skillsCheck = this.Skillservice.findByid(id);
@@ -61,7 +61,7 @@ public class SkilsController {
         Skills getSkill = this.Skillservice.handleUpdate(skills);
         return ResponseEntity.status(HttpStatus.OK).body(this.Skillservice.convertCreateSkillDTO(getSkill));
     }
-    @GetMapping("skills")
+    @GetMapping("/skills")
     @ApiMessage("get all skills")
     public ResponseEntity<ResultPaginationDTO> findAllSkills(@Filter Specification<Skills> spec, Pageable pageable){
 

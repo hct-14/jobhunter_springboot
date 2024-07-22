@@ -1,60 +1,49 @@
 package job_hunter.hct_14.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import job_hunter.hct_14.util.SercuryUtil;
-import job_hunter.hct_14.util.constant.GenderEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.xml.crypto.Data;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Entity
-@Table(name = "user")
 @Getter
 @Setter
-public class User {
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "permissions")
+public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
-//    @Column(name = "name")
-    @NotBlank(message = "email khong duoc de trong")
-    private String name;
-    @Column(name = "email")
-    @NotBlank(message = "password khong duoc de trong")
-    private String email;
-//    @Column(name = "pass_word")
-    private String passWord;
-    private int age;
-    @Enumerated(EnumType.STRING)
-    private GenderEnum gender;
+    @NotBlank(message = "name không được để trống")
+    private String Name;
 
+    @NotBlank(message = "apiPath không được để trống")
+    private String apiPath;
 
-    private String address;
-    @Column(columnDefinition = "MEDIUMTEXT")
-    private String refreshToken;
+    @NotBlank(message = "method không được để trống")
+    private String method;
+
+    @NotBlank(message = "module không được để trống")
+    private String module;
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
 
-
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name="company_id", nullable = true)
-    @JsonBackReference
-    private Company company;
-
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permissions")
     @JsonIgnore
-    private List<Resume> resumeList;
+    public List<Role> roles;
+
+
 
     @PrePersist
     public void handleBeforeCreatedateAt() {
@@ -69,7 +58,5 @@ public class User {
         this.updatedBy = currentUserLogin.orElse(null);
         this.updatedAt = Instant.now();
     }
-    public void removeCompany() {
-        this.company = null;
-    }
+
 }
