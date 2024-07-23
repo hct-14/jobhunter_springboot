@@ -64,6 +64,11 @@ public class UserService{
         return this.userRepository.save(user);
 
     }
+    public User handleRegister(User user) {
+        return this.userRepository.save(user);
+
+    }
+
 
 
     public Optional<User> findById(int id){

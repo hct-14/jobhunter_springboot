@@ -43,7 +43,12 @@ public class Permission {
     @JsonIgnore
     private List<Role> roles;
 
-
+    public Permission(String name, String apiPath, String method, String module) {
+        this.Name = name;
+        this.apiPath = apiPath;
+        this.method = method;
+        this.module = module;
+    }
 
     @PrePersist
     public void handleBeforeCreatedateAt() {

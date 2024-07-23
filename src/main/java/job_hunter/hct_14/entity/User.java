@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 @Setter
 public class User {

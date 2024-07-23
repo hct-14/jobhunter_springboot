@@ -10,4 +10,5 @@ public interface RoleReponsetory extends JpaRepository<Role, Integer>, JpaSpecif
     boolean existsByName(String name);
 
     List<Role> findByIdIn(List<Integer> id);
+    Role findByName(String name);
 }

@@ -19,6 +19,8 @@ import java.util.Optional;
 @Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
+@Table(name = "Roles")
+
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

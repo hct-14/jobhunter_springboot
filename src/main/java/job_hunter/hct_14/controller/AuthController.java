@@ -1,9 +1,11 @@
 package job_hunter.hct_14.controller;
 
 import jakarta.validation.Valid;
+import job_hunter.hct_14.entity.response.ResCreateUserDTO;
 import job_hunter.hct_14.entity.response.ResLoginDTO;
 import job_hunter.hct_14.entity.User;
 import job_hunter.hct_14.entity.request.ReqLoginDTO;
+import job_hunter.hct_14.repository.UserRepository;
 import job_hunter.hct_14.service.UserService;
 import job_hunter.hct_14.util.SercuryUtil;
 import job_hunter.hct_14.util.annotation.ApiMessage;
@@ -11,12 +13,14 @@ import job_hunter.hct_14.util.error.IdInvaldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,15 +31,20 @@ public class AuthController {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final SercuryUtil sercuryUtil;
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+
     @Value("${hct_14.jwt.refresh-token-validity-in-seconds}")
 
     private long refreshTokenExpiration;
     @Autowired
     public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder,
-                          SercuryUtil securityUtil, UserService userService) {
+                          SercuryUtil securityUtil, UserService userService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.sercuryUtil = securityUtil;
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/auth/login")
@@ -85,7 +94,21 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, resCookies.toString())
                 .body(res);
     }
+    @PostMapping("/auth/register")
+    @ApiMessage("Create a new user")
+    public ResponseEntity<ResCreateUserDTO> createNewUser(@Valid @RequestBody User postManUser) throws IdInvaldException{
+        boolean isEmailExist = this.userService.isEmailExist(postManUser.getEmail());
+        if (isEmailExist){
+            throw  new IdInvaldException(
+                    "Email " + postManUser.getEmail() + " đã tồn tai rồi em, nhập email khác đi"
+            );
+        }
 
+        String hashPassword = passwordEncoder.encode(postManUser.getPassword());
+        postManUser.setPassword(hashPassword);
+        User createUser = this.userService.handleRegister(postManUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.converToResCreateUserDTO(createUser));
+    }
     @GetMapping("/auth/account")
     @ApiMessage("fetch account")
     public ResponseEntity<ResLoginDTO.UserGetAccount> getAccount() {

@@ -17,6 +17,8 @@ import java.util.Optional;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "Resumes")
+
 public class Resume {
 
     @Id
