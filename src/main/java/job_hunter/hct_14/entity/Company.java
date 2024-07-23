@@ -36,15 +36,13 @@ public class Company {
     private String createdBy;
 //    SercuryUtil
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-//    @OneToMany(mappedBy = "company", cascade = CascadeType.REMOVE)
-
-//    @JsonManagedReference
-     @JsonIgnore
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     List<User> users;
 
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     List<Job> jobs;
 

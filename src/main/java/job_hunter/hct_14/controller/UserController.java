@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
@@ -52,30 +54,31 @@ public class UserController {
                     "Email " + postManUser.getEmail() + " đã tồn tai rồi em, nhập email khác đi"
             );
         }
-        String hashPassword = passwordEncoder.encode(postManUser.getPassWord());
-        postManUser.setPassWord(hashPassword);
+        String hashPassword = passwordEncoder.encode(postManUser.getPassword());
+        postManUser.setPassword(hashPassword);
         User createUser = this.userService.handleCreateUser(postManUser);
             return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.converToResCreateUserDTO(createUser));
     }
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable int id)
+    public ResponseEntity<String> deleteUser(@Valid @PathVariable int id)
         throws IdInvaldException{
-        User currentUser = this.userService.findById(id);
-        if (currentUser == null) {
-            throw  new IdInvaldException("id khong hop le");
+        Optional<User> currentUser = this.userService.findById(id);
+        if (currentUser.isPresent()) {
+            //            this.companyService.handleDeleteCompany(id);
+            this.userService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).body("xoa oke");
         }
-        this.userService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body("xoa oke");
+        throw  new IdInvaldException("id khong hop le");
 
     }
     @GetMapping("/users/{id}")
-    public ResponseEntity<ResUserDTO> findById(@PathVariable int id) {
+    public ResponseEntity<ResUserDTO> findById(@PathVariable User user) {
 //        User fetchUser = this.userService.findById(id);
 //        return ResponseEntity.status(HttpStatus.OK).body(fetchUser);
         try {
-            User fetchUser = this.userService.findById(id);
-            if (fetchUser != null) {
-                return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUserDTO(fetchUser));
+            Optional<User> fetchUser = this.userService.findById(user.getId());
+            if (fetchUser.isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUserDTO(fetchUser.orElse(null)));
             } else {
                 // Nếu không tìm thấy người dùng, ném ngoại lệ IdInvalidException
                 throw new IdInvaldException("Id không hợp lệ");
@@ -100,14 +103,13 @@ public class UserController {
 
     @PutMapping("/users")
     @ApiMessage("Update a user")
-    public ResponseEntity<ResUpdateUserDTO> updateUser(@RequestBody User user) throws IdInvaldException {
-        User ericUser = this.userService.updateUser(user);
-        if (ericUser == null) {
+    public ResponseEntity<ResUpdateUserDTO> updateUser(@Valid @RequestBody User user) throws IdInvaldException {
+        Optional<User> ericUser = this.userService.findById(user.getId());
+        if (!ericUser.isPresent()) {
             throw new IdInvaldException("User với id = " + user.getId() + " không tồn tại");
         }
-        return ResponseEntity.ok(this.userService.converToResUpdateUserDTO(ericUser));
+        User userSave = this.userService.handleUpdateUser(user, ericUser.get());
+        return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUpdateUserDTO(userSave));
     }
-
-
 
 }

@@ -5,20 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50a2445c-6140-4995-b477-7a786fee26d5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Permission.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/PermissionReponsetory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/RoleReponsetory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/PermissionService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/RoleService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/RoleController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/PermissionResponsetory/ResPermissionDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResResumeponsetory/ResFetchResumeDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/UserDetailCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/UserDetailCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/CompanyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/SkilsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/SkilsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/JobsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/JobsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Job.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Permission.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Permission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Role.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResResumeponsetory/ResResumeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResResumeponsetory/ResResumeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResCreateUserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResCreateUserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResLoginDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResUpdateUserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResUpdateUserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResUserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResUserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/JobReponsetory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/JobReponsetory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/CompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/JobService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/JobService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/PermissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/PermissionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/ResumeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/ResumeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/RoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/SercuryUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/SercuryUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +123,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/JobsController.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/ResumeController.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/RoleController.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/SkilsController.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Company.java" root0="SKIP_INSPECTION" />
@@ -119,6 +134,7 @@
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Skills.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/User.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/FileResponsetory/FormatRestResponse.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/PermissionResponsetory/ResPermissionDTO.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResResumeponsetory/ResResumeDTO.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResUserDTO.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/RestResponse.java" root0="SKIP_INSPECTION" />
@@ -185,6 +201,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="job_hunter.hct_14.service" />
       <recent name="job_hunter.hct_14.entity.response.FileResponsetory" />
       <recent name="job_hunter.hct_14.entity.response" />
     </key>
@@ -281,12 +298,45 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="permission" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/3.3.0/b1a00d814eeffd3024ddc9967b8f1e38d6f9deb7/spring-data-jpa-3.3.0.jar!/org/springframework/data/jpa/domain/Specification.class</url>
           <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java</url>
+          <line>65</line>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java</url>
+          <line>64</line>
+          <option name="timeStamp" value="83" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java</url>
+          <line>61</line>
+          <properties class="job_hunter.hct_14.controller.PermissionController" method="deleteById">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="79" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

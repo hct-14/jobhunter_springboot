@@ -1,12 +1,16 @@
 package job_hunter.hct_14.service;
 
-import job_hunter.hct_14.entity.Company;
+import job_hunter.hct_14.controller.ResumeController;
+import job_hunter.hct_14.entity.*;
 import job_hunter.hct_14.entity.response.ResCreateUserDTO;
 import job_hunter.hct_14.entity.response.ResUpdateUserDTO;
 import job_hunter.hct_14.entity.response.ResUserDTO;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
-import job_hunter.hct_14.entity.User;
+import job_hunter.hct_14.repository.CompanyRepository;
+import job_hunter.hct_14.repository.ResumeReponsetory;
 import job_hunter.hct_14.repository.UserRepository;
+import job_hunter.hct_14.util.error.IdInvaldException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,14 +22,26 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService{
-
+@Autowired
     private final UserRepository userRepository;
-    private final CompanyService companyService;
+    private final CompanyRepository companyRepository;
+    private final ResumeReponsetory resumeReponsetory;
+    public final CompanyService companyService;
+    private final ResumeService resumeService;
+    private final ResumeController resumeController;
+    private final RoleService roleService;
 
 
-    public UserService(UserRepository userRepository, CompanyService companyService){
+    public UserService(UserRepository userRepository, CompanyRepository companyRepository,
+                       ResumeReponsetory resumeReponsetory, CompanyService companyService,
+                       ResumeService resumeService, ResumeController resumeController, RoleService roleService){
         this.userRepository = userRepository;
-        this.companyService = companyService;
+        this.companyRepository = companyRepository;
+        this.resumeReponsetory = resumeReponsetory;
+        this.companyService =companyService;
+        this.resumeService =resumeService ;
+        this.resumeController = resumeController;
+        this.roleService = roleService;
     }
 
     public boolean isEmailExist(String email){
@@ -40,20 +56,18 @@ public class UserService{
             user.setCompany(companyOptional.isPresent() ? companyOptional.get() : null);
 
         }
+        if (user.getRole() != null){
+            Optional<Role> role = this.roleService.findById(user.getRole().getId());
+            user.setRole(role.isPresent() ? role.get() : null);
+        }
 
         return this.userRepository.save(user);
 
     }
-    public void deleteById(int id){
 
-        this.userRepository.deleteById(id);
-    }
-    public User findById(int id){
-        Optional<User> userOptional = this.userRepository.findById(id);
-        if (userOptional.isPresent()){
-            return userOptional.get();
-        }
-        return null;
+
+    public Optional<User> findById(int id){
+            return this.userRepository.findById(id);
     }
 //    public User findByEmail (String email){
 //        Optional<User> userOptional = this.userRepository.findByEmail(email);
@@ -71,23 +85,7 @@ public class UserService{
         mt.setTotal(pageUser.getTotalPages());
 
         rs.setMeta(mt);
-//        List<ResUserDTO> listUser = pageUser.getContent();
-//        List<User> userList = pageUser.getContent();
-//        List<ResUserDTO> dtoList = new ArrayList<>();
-//
-//        for (User user : userList) {
-//            ResUserDTO dto = new ResUserDTO(
-//                    user.getId(),
-//                    user.getName(),
-//                    user.getEmail(),
-//                    user.getGender(),
-//                    user.getAddress(),
-//                    user.getAge(),
-//                    user.getCreatedAt(),
-//                    user.getUpdatedAt()
-//            );
-//            dtoList.add(dto);
-//        }
+
         List<ResUserDTO> listUser = pageUser.getContent()
 
                 .stream().map(item ->new ResUserDTO(
@@ -99,9 +97,14 @@ public class UserService{
                         item.getAge(),
                         item.getCreatedAt(),
                         item.getUpdatedAt(),
+                        new ResUserDTO.Role(
+                                item.getRole() != null ? item.getRole().getId() : 0,
+                                item.getRole() != null ? item.getRole().getName() : null),
+
                         new ResUserDTO.CompanyUser(
                         item.getCompany() != null ? item.getCompany().getId() : 0,
-                        item.getCompany() != null ? item.getCompany().getName() : null)))
+                        item.getCompany() != null ? item.getCompany().getName() : null)
+    ))
                 .collect(Collectors.toList());
 
 
@@ -110,23 +113,99 @@ public class UserService{
         return rs;
     }
 //    @Transactional
-public User updateUser(User requestUser) {
-    User currentUser = this.findById(requestUser.getId());
-    if (currentUser != null) {
-        currentUser.setAddress(requestUser.getAddress());
-        currentUser.setGender(requestUser.getGender());
-        currentUser.setAge(requestUser.getAge());
-        currentUser.setName(requestUser.getName());
+public User handleUpdateUser(User userFe, User userBe) {
+    if (userFe == null || userBe == null) {
+        throw new IllegalArgumentException("User to update or existing user cannot be null");
+    }
 
-        // update
-        currentUser = this.userRepository.save(currentUser);
+    // Kiểm tra xem người dùng có tồn tại không
+    Optional<User> userOptional = this.userRepository.findById(userFe.getId());
+    if (!userOptional.isPresent()) {
+        throw new IllegalArgumentException("User not found");
     }
-    if (requestUser.getCompany() != null){
-        Optional<Company> companyOptional = this.companyService.findById(requestUser.getCompany().getId());
-        requestUser.setCompany(companyOptional.isPresent() ? companyOptional.get(): null);
+
+    // Cập nhật các trường chỉ khi có giá trị mới
+    if (userFe.getAddress() != null) {
+        userBe.setAddress(userFe.getAddress());
     }
-    return currentUser;
-}
+    if (userFe.getAge() > 0) { // Kiểm tra tuổi hợp lệ
+        userBe.setAge(userFe.getAge());
+    }
+    if (userFe.getEmail() != null && !userFe.getEmail().isEmpty()) {
+        userBe.setEmail(userFe.getEmail());
+    }
+    if (userFe.getGender() != null) {
+        userBe.setGender(userFe.getGender());
+    }
+    if (userFe.getName() != null) {
+        userBe.setName(userFe.getName());
+    }
+    if (userFe.getPassword() != null) {
+        userBe.setPassword(userFe.getPassword());
+    }
+    if (userFe.getRole() !=null){
+        userBe.setRole(userFe.getRole());
+    }
+//    if (userFe.getRole() !=null){
+//        for(Role role : userFe.getRole()){
+//
+//        }
+//
+//    }
+    if (userFe.getCompany() != null) {
+        Company company = userFe.getCompany();
+        if (company.getId() > 0) {
+            // Công ty đã tồn tại, lấy từ cơ sở dữ liệu
+            Optional<Company> companyOptional = this.companyService.findById(company.getId());
+            if (companyOptional.isPresent()) {
+                userBe.setCompany(companyOptional.get());
+            } else {
+                // Công ty không tồn tại, có thể lưu hoặc xử lý tùy ý
+                userBe.setCompany(null);
+            }
+        } else {
+            // Nếu không có công ty, đặt giá trị null
+            userBe.setCompany(null);
+        }
+ }
+
+        return this.userRepository.save(userBe);
+    }
+
+    public void deleteById(int id) throws IdInvaldException {
+        // Tìm người dùng theo ID
+        Optional<User> userOptional = this.userRepository.findById(id);
+
+        // Nếu người dùng không tồn tại, ném ra ngoại lệ
+        if (!userOptional.isPresent()) {
+            throw new IdInvaldException("Người dùng không tồn tại");
+        }
+
+        User user = userOptional.get();
+
+        // Xóa các bản ghi liên quan trong bảng resume
+        if (user.getResumes() != null) {
+            for (Resume resume : user.getResumes()) {
+                // Xóa bản ghi resume
+                this.resumeReponsetory.delete(resume);
+            }
+        }
+        if (user.getRole() != null){
+            user.setRole(null);
+            this.userRepository.save(user);
+        }
+
+        // Xử lý công ty liên kết (nếu có)
+        if (user.getCompany() != null) {
+            // Gỡ liên kết công ty
+            user.setCompany(null);
+            // Lưu lại thay đổi của người dùng
+            this.userRepository.save(user);
+        }
+
+        // Xóa người dùng
+        this.userRepository.deleteById(id);
+    }
 
 
     public User handleGetUserByUsername(String username) {
@@ -135,6 +214,7 @@ public User updateUser(User requestUser) {
     public ResCreateUserDTO converToResCreateUserDTO(User user){
         ResCreateUserDTO res = new ResCreateUserDTO();
         ResCreateUserDTO.CompanyUser companyUser = new ResCreateUserDTO.CompanyUser();
+        ResCreateUserDTO.Role role =  new ResCreateUserDTO.Role();
         res.setId(user.getId());
         res.setName(user.getName());
         res.setGender(user.getGender());
@@ -147,6 +227,11 @@ public User updateUser(User requestUser) {
             companyUser.setId(user.getCompany().getId());
             companyUser.setName(user.getCompany().getName());
             res.setCompanyUser(companyUser);
+        }
+        if (user.getRole() != null){
+            role.setId(user.getRole().getId());
+            role.setName(user.getRole().getName());
+            res.setRole(role);
         }
 
         return  res;
@@ -164,12 +249,17 @@ public User updateUser(User requestUser) {
         res.setGender(user.getGender());
         res.setUpdatedAt(user.getUpdatedAt());
         res.setCreatedAt(user.getCreatedAt());
+//        ResUserDTO
         ResUserDTO.CompanyUser companyUser = new ResUserDTO.CompanyUser();
         if (user.getCompany() != null){
             companyUser.setId(user.getCompany().getId());
             companyUser.setName(user.getCompany().getName());
             res.setCompany(companyUser);
         }
+        new ResUserDTO.Role(
+                res.getRole() != null ? res.getRole().getId() : 0,
+                res.getRole() != null ? res.getRole().getName() : null);
+
 
         return  res;
     }
@@ -183,6 +273,12 @@ public User updateUser(User requestUser) {
             companyUser.setId(user.getCompany().getId());
             companyUser.setName(user.getCompany().getName());
             res.setCompanyUser(companyUser);
+        }
+        ResUpdateUserDTO.RoleUser role = new ResUpdateUserDTO.RoleUser();
+        if (user.getRole() != null){
+            role.setId(user.getRole().getId());
+            role.setName(user.getRole().getName());
+            res.setRoleUser(role);
         }
 
         // Đặt thông tin người dùng

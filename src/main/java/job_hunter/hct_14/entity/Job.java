@@ -43,7 +43,7 @@ public class Job {
     private String createdBy;
     private String updatedBy;
 
-    @ManyToOne()
+    @ManyToOne(optional = true)
     @JoinColumn(name = "company_id")
     private Company company;
 
@@ -70,4 +70,6 @@ public class Job {
         this.updatedBy = currentUserLogin.orElse(null);
         this.updatedAt = Instant.now();
     }
+
+
 }

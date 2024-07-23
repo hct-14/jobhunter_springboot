@@ -66,7 +66,7 @@ public class JobsController {
     }
     @DeleteMapping("/jobs/{id}")
     @ApiMessage("Delete a job by id")
-    public ResponseEntity<String> delete(@PathVariable("id") int id) throws IdInvaldException {
+    public ResponseEntity<String> delete(@PathVariable("id") int id, Job job) throws IdInvaldException {
         Optional<Job> currentJob = this.jobService.findById(id);
         if (currentJob.isEmpty()) {
             throw new IdInvaldException("Job not found");

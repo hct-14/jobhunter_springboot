@@ -22,39 +22,48 @@ import java.util.Optional;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
-//    @Column(name = "name")
-    @NotBlank(message = "email khong duoc de trong")
+
     private String name;
-    @Column(name = "email")
-    @NotBlank(message = "password khong duoc de trong")
+
+//    @NotBlank(message = "email không được để trống")
     private String email;
-//    @Column(name = "pass_word")
-    private String passWord;
+
+//    @NotBlank(message = "password không được để trống")
+    private String password;
+
     private int age;
+
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
 
-
     private String address;
+
     @Column(columnDefinition = "MEDIUMTEXT")
     private String refreshToken;
+
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
 
-
-    @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name="company_id", nullable = true)
-    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<Resume> resumes;
+
 
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Resume> resumeList;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @PrePersist
     public void handleBeforeCreatedateAt() {

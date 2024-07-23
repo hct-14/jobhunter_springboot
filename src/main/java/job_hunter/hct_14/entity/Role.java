@@ -1,5 +1,6 @@
 package job_hunter.hct_14.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -24,7 +25,7 @@ public class Role {
     private int id;
     @NotBlank(message = "name này không được để trống đâu em")
     private String name;
-    private String dectiption;
+    private String description;
     private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
@@ -36,6 +37,10 @@ public class Role {
     @JoinTable(name = "permission_role", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name ="permission_id"))
     private List<Permission> permissions;
 
+
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<User> users;
 
     @PrePersist
     public void handleBeforeCreatedateAt() {

@@ -41,7 +41,7 @@ public class Permission {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "permissions")
     @JsonIgnore
-    public List<Role> roles;
+    private List<Role> roles;
 
 
 

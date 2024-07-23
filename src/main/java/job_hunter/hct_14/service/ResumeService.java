@@ -1,10 +1,21 @@
 package job_hunter.hct_14.service;
 
 
+
+import com.turkraft.springfilter.builder.FilterBuilder;
+import com.turkraft.springfilter.converter.FilterSpecification;
+import com.turkraft.springfilter.converter.FilterSpecificationConverter;
+import com.turkraft.springfilter.parser.FilterParser;
+import com.turkraft.springfilter.parser.node.FilterNode;
+
+import com.turkraft.springfilter.parser.node.FilterNode;
 import job_hunter.hct_14.entity.Resume;
+import job_hunter.hct_14.entity.response.ResResumeponsetory.ResFetchResumeDTO;
 import job_hunter.hct_14.entity.response.ResResumeponsetory.ResResumeDTO;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.repository.ResumeReponsetory;
+import job_hunter.hct_14.util.SercuryUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,11 +27,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class ResumeService {
+    @Autowired
+    FilterBuilder fb;
 
+    @Autowired
+    private FilterParser filterParser;
+
+    @Autowired
+    private FilterSpecificationConverter filterSpecificationConverter;
     private final ResumeReponsetory resumeReponsetory;
 
     public ResumeService(ResumeReponsetory resumeReponsetory) {
         this.resumeReponsetory = resumeReponsetory;
+
     }
 
     public Resume handleCreateResume(Resume resume) {
@@ -69,7 +88,55 @@ public class ResumeService {
         rs.setResult(listResume);
         return rs;
     }
+    public ResFetchResumeDTO getResume(Resume resume) {
+        ResFetchResumeDTO res = new ResFetchResumeDTO();
+        res.setId(resume.getId());
+        res.setEmail(resume.getEmail());
+        res.setUrl(resume.getUrl());
+        res.setStatus(resume.getStatus());
+        res.setCreatedAt(resume.getCreatedAt());
+        res.setCreatedBy(resume.getCreatedBy());
+        res.setUpdatedAt(resume.getUpdatedAt());
+        res.setUpdatedBy(resume.getUpdatedBy());
 
+        if (resume.getJob() != null) {
+            res.setCompanyName(resume.getJob().getCompany().getName());
+        }
+
+        res.setUser(new ResFetchResumeDTO.UserResume(resume.getUser().getId(), resume.getUser().getName()));
+        res.setJob(new ResFetchResumeDTO.JobResume(resume.getJob().getId(), resume.getJob().getName()));
+
+        return res;
+    }
+    public ResultPaginationDTO fetchResumeByUser(Pageable pageable) {
+        // query builder
+        String email = SercuryUtil.getCurrentUserLogin().isPresent() == true
+                ? SercuryUtil.getCurrentUserLogin().get()
+                : "";
+        FilterNode node = filterParser.parse("email='" + email + "'");
+        FilterSpecification<Resume> spec = filterSpecificationConverter.convert(node);
+        Page<Resume> pageResume = this.resumeReponsetory.findAll(spec, pageable);
+
+        ResultPaginationDTO rs = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
+
+        mt.setPage(pageable.getPageNumber() + 1);
+        mt.setPageSize(pageable.getPageSize());
+
+        mt.setPages(pageResume.getTotalPages());
+        mt.setTotal(pageResume.getTotalElements());
+
+        rs.setMeta(mt);
+
+        // remove sensitive data
+        List<ResFetchResumeDTO> listResume = pageResume.getContent()
+                .stream().map(item -> this.getResume(item))
+                .collect(Collectors.toList());
+
+        rs.setResult(listResume);
+
+        return rs;
+    }
 
 
 
@@ -115,5 +182,6 @@ public class ResumeService {
        }
        return resumeDTO;
     }
+
 
 }

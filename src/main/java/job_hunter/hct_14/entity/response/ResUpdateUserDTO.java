@@ -20,9 +20,16 @@ public class ResUpdateUserDTO {
 
     private CompanyUser companyUser;
 
+    private RoleUser roleUser;
     @Getter
     @Setter
     public static class CompanyUser{
+        private int id;
+        private String name;
+    }
+    @Getter
+    @Setter
+    public static class RoleUser{
         private int id;
         private String name;
     }

@@ -8,6 +8,7 @@ import job_hunter.hct_14.service.UserService;
 import job_hunter.hct_14.util.SercuryUtil;
 import job_hunter.hct_14.util.annotation.ApiMessage;
 import job_hunter.hct_14.util.error.IdInvaldException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -20,93 +21,96 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1")
 public class AuthController {
-
+//    @Autowired
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final SercuryUtil sercuryUtil;
     private final UserService userService;
     @Value("${hct_14.jwt.refresh-token-validity-in-seconds}")
-    private long JwtExpirationRefreshToken;
-    public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder, SercuryUtil sercuryUtil, UserService userService) {
+
+    private long refreshTokenExpiration;
+    @Autowired
+    public AuthController(AuthenticationManagerBuilder authenticationManagerBuilder,
+                          SercuryUtil securityUtil, UserService userService) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.sercuryUtil = sercuryUtil;
+        this.sercuryUtil = securityUtil;
         this.userService = userService;
     }
-//    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-        @PostMapping("/login")
-        public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody ReqLoginDTO loginDto) throws IdInvaldException {
-            // Nạp input gồm username/password vào Security
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    loginDto.getUsername(), loginDto.getPassword());
 
-            // xác thực người dùng => cần viết hàm loadUserByUsername
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    @PostMapping("/auth/login")
+    public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody ReqLoginDTO loginDto) {
+        // Nạp input gồm username/password vào Security
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginDto.getUsername(), loginDto.getPassword());
 
-            // create a token set thong tin nguoi dung dang nhap vao context
+        // xác thực người dùng => cần viết hàm loadUserByUsername
+        Authentication authentication = authenticationManagerBuilder.getObject()
+                .authenticate(authenticationToken);
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        // set thông tin người dùng đăng nhập vào context (có thể sử dụng sau này)
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            ResLoginDTO res = new ResLoginDTO();
-            User currentUserDB = this.userService.handleGetUserByUsername(loginDto.getUsername());
-            if (currentUserDB !=null){
-                ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(
-                        currentUserDB.getId(),
-                        currentUserDB.getEmail(),
-                        currentUserDB.getName());
-                res.setUser(userLogin);
-
-            }
-//            ResLoginDTO res = new ResLoginDTO();
-//            ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(1, " abc", " xyz");
-//            res.setUser(userLogin);
-
-//            create refresh token
-            String access_token = this.sercuryUtil.CreateAccsessToken(authentication.getName(), res.getUser());
-
-            res.setAccessToken(access_token);
-            //update user refresh token
-            String refresh_token = this.sercuryUtil.CreateRefreshToken(loginDto.getUsername(), res);
-
-            this.userService.updateUserToken(refresh_token, loginDto.getUsername());
-
-
-            //set cookie
-            ResponseCookie responseCookie = ResponseCookie.from("refresh_token", refresh_token)
-                    .httpOnly(true)
-                    .secure(true)
-//                    .domain("/")
-                    .maxAge(JwtExpirationRefreshToken)
-                    .path("/")
-                    .build();
-            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,responseCookie.toString())
-                                        .body(res);
+        ResLoginDTO res = new ResLoginDTO();
+        User currentUserDB = this.userService.handleGetUserByUsername(loginDto.getUsername());
+        if (currentUserDB != null) {
+            ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(
+                    currentUserDB.getId(),
+                    currentUserDB.getEmail(),
+                    currentUserDB.getName(),
+                    currentUserDB.getRole());
+            res.setUser(userLogin);
         }
 
+        // create access token
+        String access_token = this.sercuryUtil.createAccessToken(authentication.getName(), res);
+        res.setAccessToken(access_token);
 
-     @GetMapping("/account")
-        @ApiMessage("fetch account")
-     public ResponseEntity<ResLoginDTO.UserGetAccount> getAccount() {
-         String email = SercuryUtil.getCurrentUserLogin().isPresent()
-                 ? SercuryUtil.getCurrentUserLogin().get()
-                 : "";
+        // create refresh token
+        String refresh_token = this.sercuryUtil.createRefreshToken(loginDto.getUsername(), res);
 
-         User currentUserDB = this.userService.handleGetUserByUsername(email);
-         ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin();
-         ResLoginDTO.UserGetAccount userGetAccount = new ResLoginDTO.UserGetAccount();
+        // update user
+        this.userService.updateUserToken(refresh_token, loginDto.getUsername());
 
-         if (currentUserDB != null) {
-             userLogin.setId(currentUserDB.getId());
-             userLogin.setEmail(currentUserDB.getEmail());
-             userLogin.setName(currentUserDB.getName());
-             userGetAccount.setUser(userLogin);
-         }
+        // set cookies
+        ResponseCookie resCookies = ResponseCookie
+                .from("refresh_token", refresh_token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(refreshTokenExpiration)
+                .build();
 
-         return ResponseEntity.ok().body(userGetAccount);
-     }
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, resCookies.toString())
+                .body(res);
+    }
 
-    @ApiMessage("get user by refresh token")
-    @GetMapping("/refresh")
+    @GetMapping("/auth/account")
+    @ApiMessage("fetch account")
+    public ResponseEntity<ResLoginDTO.UserGetAccount> getAccount() {
+        String email = sercuryUtil.getCurrentUserLogin().isPresent()
+                ? sercuryUtil.getCurrentUserLogin().get()
+                : "";
+
+        User currentUserDB = this.userService.handleGetUserByUsername(email);
+        ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin();
+        ResLoginDTO.UserGetAccount userGetAccount = new ResLoginDTO.UserGetAccount();
+
+        if (currentUserDB != null) {
+            userLogin.setId(currentUserDB.getId());
+            userLogin.setEmail(currentUserDB.getEmail());
+            userLogin.setName(currentUserDB.getName());
+            userLogin.setRole(currentUserDB.getRole());
+
+            userGetAccount.setUser(userLogin);
+        }
+
+        return ResponseEntity.ok().body(userGetAccount);
+    }
+
+    @GetMapping("/auth/refresh")
+    @ApiMessage("Get User by refresh token")
     public ResponseEntity<ResLoginDTO> getRefreshToken(
             @CookieValue(name = "refresh_token", defaultValue = "abc") String refresh_token) throws IdInvaldException {
         if (refresh_token.equals("abc")) {
@@ -129,16 +133,17 @@ public class AuthController {
             ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(
                     currentUserDB.getId(),
                     currentUserDB.getEmail(),
-                    currentUserDB.getName());
+                    currentUserDB.getName(),
+                    currentUserDB.getRole());
             res.setUser(userLogin);
         }
 
         // create access token
-        String access_token = this.sercuryUtil.CreateAccsessToken(email, res.getUser());
+        String access_token = this.sercuryUtil.createAccessToken(email, res);
         res.setAccessToken(access_token);
 
         // create refresh token
-        String new_refresh_token = this.sercuryUtil.CreateRefreshToken(email, res);
+        String new_refresh_token = this.sercuryUtil.createRefreshToken(email, res);
 
         // update user
         this.userService.updateUserToken(new_refresh_token, email);
@@ -149,7 +154,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
-                .maxAge(JwtExpirationRefreshToken)
+                .maxAge(refreshTokenExpiration)
                 .build();
 
         return ResponseEntity.ok()
@@ -157,17 +162,19 @@ public class AuthController {
                 .body(res);
     }
 
-    @PostMapping("/logout")
-    @ApiMessage("logout access")
-    public ResponseEntity<Void> logout()throws IdInvaldException {
-        String email = SercuryUtil.getCurrentUserLogin().isPresent()
-                ? SercuryUtil.getCurrentUserLogin().get()
-                : "";
+    @PostMapping("/auth/logout")
+    @ApiMessage("Logout User")
+    public ResponseEntity<Void> logout() throws IdInvaldException {
+        String email = SercuryUtil.getCurrentUserLogin().isPresent() ? SercuryUtil.getCurrentUserLogin().get() : "";
+
         if (email.equals("")) {
-            throw new IdInvaldException("token khong hop le");
+            throw new IdInvaldException("Access Token không hợp lệ");
         }
-        this.userService.updateUserToken(null,email);
-        ///remove  refresh token cookie
+
+        // update refresh token = null
+        this.userService.updateUserToken(null, email);
+
+        // remove refresh token cookie
         ResponseCookie deleteSpringCookie = ResponseCookie
                 .from("refresh_token", null)
                 .httpOnly(true)
@@ -176,13 +183,8 @@ public class AuthController {
                 .maxAge(0)
                 .build();
 
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, deleteSpringCookie.toString()).body(null);
-
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, deleteSpringCookie.toString())
+                .body(null);
     }
 }
-
-
-
-
-
-

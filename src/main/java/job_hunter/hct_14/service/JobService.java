@@ -10,6 +10,7 @@ import job_hunter.hct_14.entity.response.ResUserDTO;
 import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.repository.CompanyRepository;
 import job_hunter.hct_14.repository.JobReponsetory;
+import job_hunter.hct_14.repository.ResumeReponsetory;
 import job_hunter.hct_14.repository.SkillReponsetory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,10 +26,12 @@ public class JobService {
     private final JobReponsetory jobReponsetory;
     private final SkillReponsetory skillReponsetory;
     private final CompanyRepository companyRepository;
-    public JobService(JobReponsetory jobReponsetory, SkillReponsetory skillReponsetory, CompanyRepository companyRepository) {
+    private final ResumeReponsetory resumeReponsetory;
+    public JobService(JobReponsetory jobReponsetory, SkillReponsetory skillReponsetory, CompanyRepository companyRepository, ResumeReponsetory resumeReponsetory) {
         this.jobReponsetory = jobReponsetory;
         this.skillReponsetory = skillReponsetory;
         this.companyRepository = companyRepository;
+        this.resumeReponsetory = resumeReponsetory;
     }
 
 
@@ -195,7 +198,7 @@ public class JobService {
         return  res;
     }
     public void delete(int id) {
-        this.jobReponsetory.deleteById(id);
+       this.jobReponsetory.deleteById(id);
     }
     public ResJobUpdateDTO convertUpdateJobDTO(Job job){
         ResJobUpdateDTO res = new ResJobUpdateDTO();

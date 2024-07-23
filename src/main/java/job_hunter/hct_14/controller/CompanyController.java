@@ -57,9 +57,11 @@ public class CompanyController {
     }
 
     @DeleteMapping("/companies/{id}")
-    public ResponseEntity<String> deleteCompany(@PathVariable int id) {
-        this.companyService.deleteCompany(id);
-        return ResponseEntity.status(HttpStatus.OK).body("xoa oke");
+    public ResponseEntity<String> deleteCompany(@PathVariable int id) throws IdInvaldException{
+
+            this.companyService.handleDeleteCompany(id);
+            return ResponseEntity.status(HttpStatus.OK).body("xoa oke");
+
     }
 //    @GetMapping("/Company")
 //    public ResponseEntity<Company> findByAllCompany(Company company) {
