@@ -5,18 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50a2445c-6140-4995-b477-7a786fee26d5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/DatabaseInitalizer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/PermissionInterceptor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/PermissionInterceptorConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/SubController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Subscribers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/RoleResponsetoty/ResRoleDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/SubRepomsetory/SubDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/SubscribersRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/SubscriberService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/error/PermissionException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/SercurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/SercurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Job.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Permission.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Permission.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Resume.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Resume.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/RoleReponsetory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/RoleReponsetory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/ResumeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/ResumeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Skills.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Skills.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/PermissionResponsetory/ResPermissionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/PermissionResponsetory/ResPermissionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/CompanyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/CompanyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/ResumeReponsetory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/ResumeReponsetory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/RoleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/constant/LevelEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/constant/LevelEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/error/GlobalException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/error/GlobalException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +87,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Record" />
         <option value="Interface" />
         <option value="Class" />
       </list>
@@ -94,62 +109,10 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/Hct14Application.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/CorsConfig.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/CustomAuthenticationEntryPoint.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/DatabaseInitalizer.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/DateTimeFormatConfig.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/SercurityConfiguration.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/StaticResourcesWebConfig.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/UserDetailCustom.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/AuthController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/CompanyController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/FileController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/JobsController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/ResumeController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/RoleController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/SkilsController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/UserController.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Company.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Job.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/PermissionInterceptor.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Permission.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Resume.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Role.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/Skills.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/User.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/FileResponsetory/FormatRestResponse.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/PermissionResponsetory/ResPermissionDTO.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResResumeponsetory/ResResumeDTO.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResUserDTO.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/RestResponse.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/ResultPaginationDTO.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/SkillResponsetory/ResCreateSkillsDTO.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/SkillResponsetory/ResSkillDTO.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/CompanyRepository.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/JobReponsetory.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/PermissionReponsetory.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/ResumeReponsetory.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/RoleReponsetory.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/SkillReponsetory.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/UserRepository.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/sercurity/SercurityLogin.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/CompanyService.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/FileService.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/JobService.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/PermissionService.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/ResumeService.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/RoleService.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/SkillService.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/UserService.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/FormatResponse.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/SubscriberService.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/SercuryUtil.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/annotation/ApiMessage.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/constant/GenderEnum.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/constant/LevelEnum.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/constant/ResumeStateEnum.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/error/GlobalException.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/util/error/StorageException.java" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/src/main/resources/application.properties" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProblemsViewState">
@@ -163,32 +126,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Build hct_14.executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.Hct14Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/hoang/OneDrive/Máy tính/jobhunter/01-java-spring-jobhunter-starter/settings.gradle.kts&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.qodana&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build hct_14.executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.Hct14Application.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/hoang/OneDrive/Máy tính/todolist/hct_14/src/main/java/job_hunter/hct_14/util/error",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "settings.qodana",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="job_hunter.hct_14.service" />
       <recent name="job_hunter.hct_14.entity.response.FileResponsetory" />
       <recent name="job_hunter.hct_14.entity.response" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\hoang\OneDrive\Máy tính\todolist\hct_14\src\main\java\job_hunter\hct_14\util\error" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\hoang\OneDrive\Máy tính\jobhunter\01-java-spring-jobhunter-starter" />
@@ -254,7 +220,12 @@
       <workItem from="1721240202452" duration="113000" />
       <workItem from="1721320118987" duration="3096000" />
       <workItem from="1721324566730" duration="34949000" />
-      <workItem from="1721756802820" duration="7370000" />
+      <workItem from="1721756802820" duration="7773000" />
+      <workItem from="1721842551786" duration="6533000" />
+      <workItem from="1722076285492" duration="6646000" />
+      <workItem from="1722240433685" duration="13345000" />
+      <workItem from="1722346222397" duration="509000" />
+      <workItem from="1722346752659" duration="4180000" />
     </task>
     <servers />
   </component>
@@ -315,6 +286,16 @@
           <line>64</line>
           <option name="timeStamp" value="83" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/PermissionInterceptorConfiguration.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="101" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/PermissionInterceptorConfiguration.java</url>
+          <line>18</line>
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/PermissionController.java</url>
           <line>61</line>
@@ -326,6 +307,11 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.springframework.web.servlet.config.annotation.InterceptorRegistry" memberName="registrations" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

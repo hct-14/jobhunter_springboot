@@ -67,5 +67,11 @@ public class ResumeController {
         }
         throw new IdInvaldException("khong co resume nay dau ma xoa em oi");
     }
+    @PostMapping("/resumes/by-user")
+    @ApiMessage("Get list resumes by user")
+    public ResponseEntity<ResultPaginationDTO> fetchResumeByUser(Pageable pageable) {
+
+        return ResponseEntity.ok().body(this.resumeService.fetchResumeByUser(pageable));
+    }
 
 }

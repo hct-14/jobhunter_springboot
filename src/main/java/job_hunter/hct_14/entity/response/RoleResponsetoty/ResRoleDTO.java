@@ -1,6 +1,5 @@
-package job_hunter.hct_14.entity.response;
+package job_hunter.hct_14.entity.response.RoleResponsetoty;
 
-import job_hunter.hct_14.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,31 +8,29 @@ import lombok.Setter;
 import java.time.Instant;
 import java.util.List;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResPermissionDTO {
-
-
+public class ResRoleDTO {
     private int id;
     private String name;
-    private String apiPath;
-    private String method;
-    private String module;
+    private String description;
+    private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
-    private List<RolePermission> rolePermission;
+    private List<PermistionRole> permissions;
 
-    @Getter
+
+
     @Setter
+    @Getter
     @AllArgsConstructor
-    @NoArgsConstructor
-    public static class RolePermission {
+//    @NoArgsConstructor
+    public static class PermistionRole {
         private int id;
         private String name;
-        private String description; // Sửa tên biến cho đúng
     }
 }

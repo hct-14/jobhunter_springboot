@@ -29,6 +29,8 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	implementation ("org.springframework.boot:spring-boot-starter-security")
 	implementation ("org.springframework.boot:spring-boot-starter-validation")
+	implementation ("org.springframework.boot:spring-boot-starter-mail")
+
 //	implementation ("org.springframework.boot:spring-boot-starter-lombok")
 
 	implementation ("org.springframework.boot:spring-boot-starter-oauth2-resource-server")

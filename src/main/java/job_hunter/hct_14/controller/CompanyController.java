@@ -63,8 +63,5 @@ public class CompanyController {
             return ResponseEntity.status(HttpStatus.OK).body("xoa oke");
 
     }
-//    @GetMapping("/Company")
-//    public ResponseEntity<Company> findByAllCompany(Company company) {
-//        return  ResponseEntity.status(HttpStatus.OK).body()
-//    }
+
 }

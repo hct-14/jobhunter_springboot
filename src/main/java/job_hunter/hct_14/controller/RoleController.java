@@ -1,10 +1,15 @@
 package job_hunter.hct_14.controller;
 
 
+import com.turkraft.springfilter.boot.Filter;
+import job_hunter.hct_14.entity.Permission;
 import job_hunter.hct_14.entity.Role;
+import job_hunter.hct_14.entity.response.ResultPaginationDTO;
 import job_hunter.hct_14.service.RoleService;
 import job_hunter.hct_14.util.annotation.ApiMessage;
 import job_hunter.hct_14.util.error.IdInvaldException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +57,10 @@ public class RoleController {
     public ResponseEntity<String> deleteById(@PathVariable int id)throws IdInvaldException{
         this.roleService.handleDeleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("xoa oke");
+    }
+    @GetMapping("roles")
+    public ResponseEntity<ResultPaginationDTO> getAllPermission(@Filter Specification<Role> spec, Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(this.roleService.getAllJob(spec, pageable));
     }
 
 

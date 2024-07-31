@@ -6,6 +6,7 @@ import job_hunter.hct_14.util.SercuryUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,9 +49,17 @@ public class SercurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    CustomAuthenticationEntryPoint customAuthenticationEntryPoint) throws Exception {
+        String[] whiteList ={
+                "/",
+                 "/api/v1/", "/api/v1/auth/login","/api/v1/auth/refresh","/storage/**",
+                 "/api/v1/auth/register", "/api/v1/sub"
+        };
         http.authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/api/v1/", "/api/v1/auth/login","/api/v1/auth/refresh","/storage/**",
-                                "/api/v1/companies/**", "/api/v1/jobs/**","/api/v1/auth/register").permitAll()
+                        .requestMatchers(whiteList).permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/v1/companies").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/v1/jobs").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/v1/skill").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())

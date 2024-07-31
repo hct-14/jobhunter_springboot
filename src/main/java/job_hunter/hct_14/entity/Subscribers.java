@@ -2,6 +2,7 @@ package job_hunter.hct_14.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import job_hunter.hct_14.util.SercuryUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,31 +12,29 @@ import lombok.Setter;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "skills")
-public class Skills {
+public class Subscribers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(columnDefinition = "MEDIUMTEXT")
+    @NotBlank(message = "name không được để trống")
     private String name;
+    @NotBlank(message = "email không được để trống")
+    private String email;
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "skills")
-    @JsonIgnore
-    private List<Job> jobs;
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy ="skills" )
-    @JsonIgnore
-    private List<Subscribers> subscribers;
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "subscriber_skill",
+            joinColumns = @JoinColumn(name = "subscriber_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private List<Skills> skills;
 
     @PrePersist
     public void handleBeforeCreatedateAt() {

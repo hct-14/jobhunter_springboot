@@ -213,6 +213,7 @@ public User handleUpdateUser(User userFe, User userBe) {
     }
 
 
+
     public User handleGetUserByUsername(String username) {
         return this.userRepository.findByEmail(username);
     }
@@ -261,9 +262,13 @@ public User handleUpdateUser(User userFe, User userBe) {
             companyUser.setName(user.getCompany().getName());
             res.setCompany(companyUser);
         }
-        new ResUserDTO.Role(
-                res.getRole() != null ? res.getRole().getId() : 0,
-                res.getRole() != null ? res.getRole().getName() : null);
+        ResUserDTO.Role RoleUser = new ResUserDTO.Role();
+
+        if (user.getRole() != null){
+            RoleUser.setId(user.getRole().getId());
+            RoleUser.setName(user.getRole().getName());
+            res.setRole(RoleUser);
+        }
 
 
         return  res;
@@ -309,6 +314,7 @@ public User handleUpdateUser(User userFe, User userBe) {
     public User getUserByRefreshTokenAndEmail(String token, String email) {
         return this.userRepository.findByRefreshTokenAndEmail(token, email);
     }
+
 
 
 //    public List<User> findByCompany(Company company) {

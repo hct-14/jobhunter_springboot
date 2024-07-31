@@ -1,13 +1,16 @@
 package job_hunter.hct_14.service;
 
-import job_hunter.hct_14.entity.Permission;
-import job_hunter.hct_14.entity.Role;
-import job_hunter.hct_14.entity.Skills;
-import job_hunter.hct_14.entity.User;
+import job_hunter.hct_14.entity.*;
+import job_hunter.hct_14.entity.response.ResPermissionDTO;
+import job_hunter.hct_14.entity.response.ResultPaginationDTO;
+import job_hunter.hct_14.entity.response.RoleResponsetoty.ResRoleDTO;
 import job_hunter.hct_14.repository.PermissionReponsetory;
 import job_hunter.hct_14.repository.RoleReponsetory;
 import job_hunter.hct_14.repository.UserRepository;
 import job_hunter.hct_14.util.error.IdInvaldException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,11 +36,7 @@ public class RoleService {
     public  Optional<Role> findById(int id){
 
         return this.roleReponsetory.findById(id);
-//        Optional<Role> role = this.roleReponsetory.findById(id);
-//        if (role.isPresent()){
-//            return role.get();
-//        }
-//        return null;
+
     }
     public Role createRole(Role role) throws IdInvaldException {
         boolean existByNameCheck = this.existsByNameRole(role.getName());
@@ -89,5 +88,37 @@ public class RoleService {
             }
         }
         this.roleReponsetory.deleteById(id);
+    }
+    public ResultPaginationDTO getAllJob(Specification<Role> spec, Pageable pageable){
+        Page<Role>  rolePage = this.roleReponsetory.findAll(spec, pageable);
+//        Page<Permission> pagePermissions = this.permissionReponsetory.findAll(spec, pageable);
+
+        ResultPaginationDTO rs = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
+        mt.setPage(pageable.getPageNumber() + 1);
+        mt.setPageSize(pageable.getPageSize());
+        mt.setPages(rolePage.getTotalPages());
+        mt.setTotal(rolePage.getTotalPages());
+        rs.setMeta(mt);
+
+        List<ResRoleDTO> listRole= rolePage.getContent()
+                .stream().map(item -> new ResRoleDTO (
+                        item.getId(),
+                        item.getName(),
+                        item.getDescription(),
+                        item.isActive(),
+                        item.getCreatedAt(),
+                        item.getUpdatedAt(),
+                        item.getCreatedBy(),
+                        item.getUpdatedBy(),
+                        item.getPermissions().stream()
+                                .map(permission -> new ResRoleDTO.PermistionRole(permission.getId(),
+                                        permission.getName()))
+                                .collect(Collectors.toList())
+                )).collect(Collectors.toList());
+
+
+        rs.setResult(listRole);
+        return rs;
     }
 }

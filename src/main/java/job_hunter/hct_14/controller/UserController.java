@@ -72,11 +72,11 @@ public class UserController {
 
     }
     @GetMapping("/users/{id}")
-    public ResponseEntity<ResUserDTO> findById(@PathVariable User user) {
+    public ResponseEntity<ResUserDTO> findById(@PathVariable int id) {
 //        User fetchUser = this.userService.findById(id);
 //        return ResponseEntity.status(HttpStatus.OK).body(fetchUser);
         try {
-            Optional<User> fetchUser = this.userService.findById(user.getId());
+            Optional<User> fetchUser = this.userService.findById(id);
             if (fetchUser.isPresent()) {
                 return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUserDTO(fetchUser.orElse(null)));
             } else {
@@ -111,5 +111,6 @@ public class UserController {
         User userSave = this.userService.handleUpdateUser(user, ericUser.get());
         return ResponseEntity.status(HttpStatus.OK).body(this.userService.converToResUpdateUserDTO(userSave));
     }
+
 
 }
