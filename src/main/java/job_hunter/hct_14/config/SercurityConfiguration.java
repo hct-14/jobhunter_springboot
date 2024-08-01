@@ -52,7 +52,7 @@ public class SercurityConfiguration {
         String[] whiteList ={
                 "/",
                  "/api/v1/", "/api/v1/auth/login","/api/v1/auth/refresh","/storage/**",
-                 "/api/v1/auth/register", "/api/v1/sub"
+                 "/api/v1/auth/register", "/api/v1/sub", "/api/v1/email"
         };
         http.authorizeHttpRequests(configurer -> configurer
                         .requestMatchers(whiteList).permitAll()
