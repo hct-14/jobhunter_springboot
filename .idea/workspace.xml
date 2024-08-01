@@ -5,19 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="50a2445c-6140-4995-b477-7a786fee26d5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/EmailController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/entity/response/email/ResEmailJob.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/EmailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/job.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/test.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/Hct14Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/Hct14Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/SercurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/config/SercurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/JobReponsetory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/JobReponsetory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/SubscribersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/repository/SubscribersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/EmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/controller/EmailController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/SubscriberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/job_hunter/hct_14/service/SubscriberService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -223,7 +214,7 @@
       <workItem from="1722076285492" duration="6646000" />
       <workItem from="1722240433685" duration="13345000" />
       <workItem from="1722346222397" duration="509000" />
-      <workItem from="1722346752659" duration="22910000" />
+      <workItem from="1722346752659" duration="25281000" />
     </task>
     <servers />
   </component>

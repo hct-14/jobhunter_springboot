@@ -13,12 +13,15 @@ import job_hunter.hct_14.util.SercuryUtil;
 import job_hunter.hct_14.util.error.IdInvaldException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+
 public class SubscriberService {
 
     private UserRepository userRepository;
