@@ -28,7 +28,6 @@ public class ResumeController {
 
     @PostMapping("/resumes")
     @ApiMessage("call api create resume success")
-
     public ResponseEntity<ResResumeDTO> addResume(@RequestBody Resume resume) {
         Resume addResume = this.resumeService.handleCreateResume(resume);
 //        Resume saveResume = this.resumeService.handleCreateResume(resume);

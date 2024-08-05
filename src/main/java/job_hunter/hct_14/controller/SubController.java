@@ -2,6 +2,7 @@ package job_hunter.hct_14.controller;
 
 import job_hunter.hct_14.entity.Subscribers;
 import job_hunter.hct_14.entity.response.SubRepomsetory.SubDTO;
+import job_hunter.hct_14.util.SercuryUtil;
 import job_hunter.hct_14.util.annotation.ApiMessage;
 import job_hunter.hct_14.util.error.IdInvaldException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,14 @@ public class SubController {
     public ResponseEntity<String> deleteSub(@PathVariable int id) throws IdInvaldException {
         this.subscriberService.deleteSub(id);
         return ResponseEntity.status(HttpStatus.OK).body("xoa oke");
+    }
+    @PostMapping("/subscribers/skills")
+    @ApiMessage("Get subscriber's skill")
+    public ResponseEntity<Subscribers> getSubscribersSkill() throws IdInvaldException {
+        String email = SercuryUtil.getCurrentUserLogin().isPresent() == true
+                ? SercuryUtil.getCurrentUserLogin().get()
+                : "";
+
+        return ResponseEntity.ok().body(this.subscriberService.findByEmail(email));
     }
 }

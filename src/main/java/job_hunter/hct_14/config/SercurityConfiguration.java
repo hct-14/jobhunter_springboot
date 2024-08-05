@@ -52,11 +52,14 @@ public class SercurityConfiguration {
         String[] whiteList ={
                 "/",
                  "/api/v1/", "/api/v1/auth/login","/api/v1/auth/refresh","/storage/**",
-                 "/api/v1/auth/register", "/api/v1/sub", "/api/v1/email"
+                 "/api/v1/auth/register", "/api/v1/sub", "/api/v1/email", "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html"
         };
         http.authorizeHttpRequests(configurer -> configurer
                         .requestMatchers(whiteList).permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/v1/companies").permitAll()
+//                        .requestMatchers(HttpMethod.GET,"/api/v1/companies").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/v1/jobs").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/v1/skill").permitAll()
 

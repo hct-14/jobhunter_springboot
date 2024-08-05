@@ -146,5 +146,8 @@ public class SubscriberService {
 
         return res;
     }
+    public Subscribers findByEmail(String email) {
+        return this.subscribersRepository.findByEmail(email);
+    }
 
 }

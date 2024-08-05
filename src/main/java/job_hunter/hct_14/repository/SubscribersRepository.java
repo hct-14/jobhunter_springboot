@@ -9,4 +9,6 @@ public interface SubscribersRepository extends JpaRepository<Subscribers, Intege
 //   boolean existsByNameEmail
 boolean existsByEmail(String email);
 
+    Subscribers findByEmail(String email);
+
 }
